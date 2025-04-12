@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anish Tanaji Inamadar - Resume</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">RESUME</h1>
+        <h2 class="name">Anish Tanaji Inamadar</h2>
+        <p class="role">
+            <a href="https://aitmbgm.ac.in/" class="role-link" target="_blank">
+                Student Of Angadi Institute Of Technology And Management
+            </a>
+        </p>
+        
+        <div class="profile-image-container">
+            <img src="PHOTO.png" alt="Profile Photo" class="profile-image">
+        </div>
+
+        <div class="buttons">
+            <a href="#" class="button" id="projects-btn">Projects</a>
+            <a href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" class="button">Certificates</a>
+            <a href="#" class="button" id="skills-btn">Skills</a>
+        </div>
+
+        <div id="projects-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>My Projects</h2>
+                <ul class="projects-list">
+                    <li>AI RETAIL ASSISTANT ( MINI-PROJECT )</li>
+                    <li>RESUME ( PROJECT )</li>
+                    <li>AI COMSENSOR ( PROJECT FOR HACKATHON )</li>
+                    <li>COLLEGE WEBSITE ( VENCER 2K25 )</li>
+                    <li>SMALL GAME ( PROJECT FOR FUN )</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="experience-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>My Certificates</h2>
+                <div class="certificate-previews">
+                    <div class="certificate-preview">
+                        <img src="1.png" alt="Certificate 1" class="certificate-image">
+                    </div>
+                    <div class="certificate-preview">
+                        <img src="2.png" alt="Certificate 2" class="certificate-image">
+                    </div>
+                    <div class="certificate-preview">
+                        <img src="3.png" alt="Certificate 3" class="certificate-image">
+                    </div>
+                </div>
+                <a href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" 
+                   class="button" 
+                   target="_blank">View More Certificates</a>
+            </div>
+        </div>
+
+        <div id="institute-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Angadi Institute Of Technology And Management</h2>
+                <iframe src="https://aitmbgm.ac.in/" 
+                        class="institute-iframe"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="contact">
+            <p class="email">
+                E-Mail: <a href="mailto:anishinamadar11111@gmail.com">anishinamadar11111@gmail.com</a>
+            </p>
+            <p class="social-text">Follow me on social media:</p>
+            
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/anish-inamadar-858461303?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link">
+                    <i data-lucide="linkedin" class="social-icon"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/IKnowU27735300" class="social-link">
+                    <i data-lucide="github" class="social-icon"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://www.instagram.com/gamer_12345_hs/?__pwa=1#" class="social-link">
+                    <i data-lucide="instagram" class="social-icon"></i>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+        <div id="skills-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>My Skills</h2>
+                <ul class="skills-list">
+                    <li>WEBSITE DEVELOPER ( BASIC LEVEL )</li>
+                    <li>DEBUGGER ( BASIC LEVEL )</li>
+                    <li>PROMPTER ( MEDIUM LEVEL )</li>
+                    <li>PROMPTER ( MEDIUM LEVEL )</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
