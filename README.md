@@ -30,7 +30,8 @@
 <h2 id="getting-started">Getting Started</h2>
 <p>Prerequisites: This project requires the following dependencies:</p>
 <ul>
-    <li>Programming Language: JavaScript</li>
+    <li>Programming Language: JavaScript , HTML , CSS
+    </li>
 </ul>
 
 <h2 id="usage">Usage</h2>
