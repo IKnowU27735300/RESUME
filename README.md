@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; }
-        #returnToTop { margin-top: 20px; padding: 10px; background: #007BFF; color: #fff; text-align: center; cursor: pointer; }
-        #returnToTop:hover { background: #0056b3; }
-    </style>
-</head>
-<body>
-
 <h1>RESUME</h1>
 <p>Elevate your professional presence with stunning visuals.</p>
 <p>Built with the tools and technologies.</p>
@@ -39,15 +25,3 @@
 
 <h2 id="testing">Testing</h2>
 <p>Resume runs on the best framework. Run the test suite with: <code>npm test</code></p>
-
-<!-- Return to Top Button -->
-<div id="returnToTop" onclick="scrollToTop()">Return to Top</div>
-
-<script>
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-</script>
-
-</body>
-</html>
