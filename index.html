@@ -3,114 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anish Tanaji Inamadar - Resume</title>
+    <meta name="description" content="Anish Tanaji Inamadar - Portfolio Website">
+    <meta name="keywords" content="portfolio, web developer, Anish Inamadar">
+    <title>Anish Tanaji Inamadar - Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">RESUME</h1>
-        <h2 class="name">Anish Tanaji Inamadar</h2>
-        <p class="role">
-            <a href="https://aitmbgm.ac.in/" class="role-link" target="_blank">
-                Student Of Angadi Institute Of Technology And Management
-            </a>
-        </p>
-        
-        <div class="profile-image-container">
-            <img src="PHOTO.png" alt="Profile Photo" class="profile-image">
-        </div>
-
-        <div class="buttons">
-            <a href="#" class="button" id="projects-btn">Projects</a>
-            <a href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" class="button">Certificates</a>
-            <a href="#" class="button" id="skills-btn">Skills</a>
-        </div>
-
-        <div id="projects-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>My Projects</h2>
-                <ul class="projects-list">
-                    <li>AI RETAIL ASSISTANT ( MINI-PROJECT )</li>
-                    <li>RESUME ( PROJECT )</li>
-                    <li>AI COMSENSOR ( PROJECT FOR HACKATHON )</li>
-                    <li>COLLEGE WEBSITE ( VENCER 2K25 )</li>
-                    <li>SMALL GAME ( PROJECT FOR FUN )</li>
-                </ul>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">AI</div>
+            <div class="welcome-text">WELCOME!</div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
+    </nav>
 
-        <div id="experience-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>My Certificates</h2>
-                <div class="certificate-previews">
-                    <div class="certificate-preview">
-                        <img src="1.png" alt="Certificate 1" class="certificate-image">
-                    </div>
-                    <div class="certificate-preview">
-                        <img src="2.png" alt="Certificate 2" class="certificate-image">
-                    </div>
-                    <div class="certificate-preview">
-                        <img src="3.png" alt="Certificate 3" class="certificate-image">
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content" data-aos="fade-up">
+                    <h1 class="name">Anish Tanaji Inamadar</h1>
+                    <p class="role">Web Developer & AI Enthusiast</p>
+                    <div class="cta-buttons">
+                        <a href="#projects" class="cta-button primary">View Projects</a>
+                        <a href="#gallery" class="cta-button secondary">Certificates</a>
+                        <a href="#contact" class="cta-button secondary">Contact Me</a>
                     </div>
                 </div>
-                <a href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" 
-                   class="button" 
-                   target="_blank">View More Certificates</a>
+                <div class="profile-image-container" data-aos="fade-left">
+                    <img src="PHOTO.png" alt="Profile Photo" class="profile-image">
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div id="institute-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Angadi Institute Of Technology And Management</h2>
-                <iframe src="https://aitmbgm.ac.in/" 
-                        class="institute-iframe"
-                        allowfullscreen></iframe>
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">About Me</h2>
+                <div class="about-content">
+                    <p data-aos="fade-up" data-aos-delay="100">
+                         I have experience in Debugging the Code , Creating Contents on YouTube and Instagram ,Photography ,Videography And Event Management,
+                         Problem-solving, and continuous learning. I've participated in 3-4 hackathons, securing 5th place in one of them, 
+                         and I'm currently searching for more hackathons to further enhance my knowledge in technology. I've also attended various online webinars to expand my understanding of different tech domains. 
+                         Additionally, I worked as a Marketing Incharge under the ACM Student Chapter, where I developed leadership, organizational, and marketing skills. I enjoy coding, building innovative solutions, and exploring new advancements in technology.
+                          Apart from tech, I'm also interested in Gaming ,Sports (Volleyball , Badminton), GYM , Technical News and i am a AI enthusiast currently studying at AITM .
+                    </p>
+                    <div class="institute-link-container" data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="school" class="institute-icon"></i>
+                        <a href="https://aitmbgm.ac.in/" target="_blank" class="institute-link">
+                            Angadi Institute Of Technology And Management
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="contact">
-            <p class="email">
-                E-Mail: <a href="mailto:anishinamadar11111@gmail.com">anishinamadar11111@gmail.com</a>
-            </p>
-            <p class="social-text">Follow me on social media:</p>
-            
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/anish-inamadar-858461303?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-link">
-                    <i data-lucide="linkedin" class="social-icon"></i>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://github.com/IKnowU27735300" class="social-link">
-                    <i data-lucide="github" class="social-icon"></i>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://www.instagram.com/gamer_12345_hs/?__pwa=1#" class="social-link">
-                    <i data-lucide="instagram" class="social-icon"></i>
-                    <span>Instagram</span>
-                </a>
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">My Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card" data-aos="fade-up">
+                        <h3>AI RETAIL ASSISTANT</h3>
+                        <p>Mini-Project</p>
+                    </div>
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3>RESUME</h3>
+                        <p>Portfolio Project</p>
+                    </div>
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3>AI COMSENSOR</h3>
+                        <p>Hackathon Project</p>
+                    </div>
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3>COLLEGE WEBSITE</h3>
+                        <p>VENCER 2K25</p>
+                    </div>
+                    <div class="project-card" data-aos="fade-up" data-aos-delay="400">
+                        <h3>EVENT VISTA</h3>
+                        <p>GIT Hackathon Project</p>
+                    </div>
+                </div>
+                <div class="projects-cta" data-aos="fade-up">
+                    <a href="https://github.com/IKnowU27735300" class="cta-button primary" target="_blank">View All Projects</a>
+                </div>
             </div>
-        </div>
-        <div id="skills-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>My Skills</h2>
-                <ul class="skills-list">
-                    <li>WEBSITE DEVELOPER ( BASIC LEVEL )</li>
-                    <li>DEBUGGER ( BASIC LEVEL )</li>
-                    <li>PROMPTER ( MEDIUM LEVEL )</li>
-                    <li>PROMPTER ( MEDIUM LEVEL )</li>
-                </ul>
+        </section>
+
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Certificates</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-aos="fade-up">
+                        <img src="Certificate (1).png" alt="Mysore HACKATHON" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>Mysore HACKATHON</h3>
+                            <p>ME AND MY TEAM GOT 5TH RANK IN HACKATHON</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                        <img src="Certificate (2).png" alt="GOOGLE ONLINE COURSE" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>ONLINE COURSE</h3>
+                            <p>SUCCESSFULLY COMPLETED GOOGLE ONLINE COURSE</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                        <img src="Certificate (3).png" alt="GOOGLE ONLINE COURSE" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h3>ONLINE COURSE</h3>
+                            <p>SUCCESSFULLY COMPLETED DATA STRUCTURES COURSE</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-cta" data-aos="fade-up">
+                    <a href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" class="cta-button primary" target="_blank">View All Certificates</a>
+                </div>
             </div>
+        </section>
+
+        <section id="skills" class="skills">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-card" data-aos="fade-up">
+                        <h3>Web Development</h3>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Debugging</h3>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3>AI Prompting</h3>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title" data-aos="fade-up">Get in Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info" data-aos="fade-right">
+                        <p class="email">
+                            <i data-lucide="mail"></i>
+                            <a href="mailto:anishinamadar11111@gmail.com">anishinamadar11111@gmail.com</a>
+                        </p>
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/anish-inamadar-858461303" class="social-link" target="_blank">
+                                <i data-lucide="linkedin"></i>
+                            </a>
+                            <a href="https://github.com/IKnowU27735300" class="social-link" target="_blank">
+                                <i data-lucide="github"></i>
+                            </a>
+                            <a href="https://www.instagram.com/gamer_12345_hs/" class="social-link" target="_blank">
+                                <i data-lucide="instagram"></i>
+                            </a>
+                            <a href="https://www.facebook.com/share/1UdD4F9S8x/" class="social-link" target="_blank">
+                                <i data-lucide="facebook"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Anish Tanaji Inamadar. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        lucide.createIcons();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
