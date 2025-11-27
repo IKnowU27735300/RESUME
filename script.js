@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initSkillBars();
     initMagneticButtons();
     initLucideIcons();
+    initDynamicGreeting();
+    initLiveClock();
+    initDynamicBackgrounds();
+    initFloatingElements();
+    initRandomGlitchEffect();
 });
 
 // ========== LOADING SCREEN ==========
@@ -674,4 +679,223 @@ document.addEventListener('mousedown', () => {
     document.body.classList.remove('keyboard-nav');
 });
 
+// ========== DYNAMIC GREETING ==========
+function initDynamicGreeting() {
+    const badge = document.querySelector('.hero-badge span');
+    if (!badge) return;
+    
+    const hour = new Date().getHours();
+    let greeting = 'Available for opportunities';
+    
+    if (hour >= 5 && hour < 12) {
+        greeting = '☀️ Good Morning! Available for opportunities';
+    } else if (hour >= 12 && hour < 17) {
+        greeting = '🌤️ Good Afternoon! Available for opportunities';
+    } else if (hour >= 17 && hour < 22) {
+        greeting = '🌆 Good Evening! Available for opportunities';
+    } else {
+        greeting = '🌙 Burning the midnight oil! Available for opportunities';
+    }
+    
+    badge.textContent = greeting;
+}
+
+// ========== LIVE CLOCK ==========
+function initLiveClock() {
+    // Add a subtle live indicator to footer
+    const footer = document.querySelector('.footer-content');
+    if (!footer) return;
+    
+    const clockDiv = document.createElement('p');
+    clockDiv.className = 'live-clock';
+    clockDiv.style.cssText = `
+        font-size: 0.85rem;
+        opacity: 0.6;
+        margin-top: 0.5rem;
+        font-family: 'Space Grotesk', monospace;
+    `;
+    footer.appendChild(clockDiv);
+    
+    function updateClock() {
+        const now = new Date();
+        const time = now.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true 
+        });
+        const date = now.toLocaleDateString('en-US', { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+        clockDiv.innerHTML = `<span style="color: #00d4ff;">●</span> Live • ${date} • ${time}`;
+    }
+    
+    updateClock();
+    setInterval(updateClock, 1000);
+}
+
+// ========== DYNAMIC BACKGROUNDS ==========
+function initDynamicBackgrounds() {
+    const orbs = document.querySelectorAll('.gradient-orb');
+    
+    orbs.forEach((orb, index) => {
+        // Continuous subtle movement
+        setInterval(() => {
+            const randomX = Math.random() * 100 - 50;
+            const randomY = Math.random() * 100 - 50;
+            const randomScale = 0.8 + Math.random() * 0.4;
+            
+            gsap.to(orb, {
+                x: randomX,
+                y: randomY,
+                scale: randomScale,
+                duration: 8 + Math.random() * 4,
+                ease: 'sine.inOut'
+            });
+        }, (index + 1) * 8000);
+    });
+    
+    // Subtle color shift based on time
+    const hour = new Date().getHours();
+    const heroSection = document.querySelector('.hero');
+    
+    if (hour >= 6 && hour < 12) {
+        // Morning - warmer tones
+        heroSection.style.setProperty('--orb-color-1', 'rgba(255, 179, 71, 0.3)');
+    } else if (hour >= 18 || hour < 6) {
+        // Evening/Night - cooler tones
+        heroSection.style.setProperty('--orb-color-1', 'rgba(99, 102, 241, 0.3)');
+    }
+}
+
+// ========== FLOATING ELEMENTS ==========
+function initFloatingElements() {
+    const floatingCards = document.querySelectorAll('.floating-card');
+    
+    floatingCards.forEach((card, index) => {
+        // Add continuous floating animation
+        gsap.to(card, {
+            y: '+=20',
+            duration: 2 + index * 0.5,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+        });
+        
+        gsap.to(card, {
+            rotation: index % 2 === 0 ? 5 : -5,
+            duration: 3 + index * 0.3,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+        });
+    });
+    
+    // Animate skill bubbles
+    const skillBubbles = document.querySelectorAll('.skill-bubble');
+    skillBubbles.forEach((bubble, index) => {
+        gsap.to(bubble, {
+            y: '+=15',
+            x: index % 2 === 0 ? '+=10' : '-=10',
+            duration: 3 + Math.random() * 2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: index * 0.2
+        });
+    });
+}
+
+// ========== RANDOM GLITCH EFFECT ==========
+function initRandomGlitchEffect() {
+    const logo = document.querySelector('.logo-text');
+    if (!logo) return;
+    
+    // Occasional subtle glitch effect on logo
+    setInterval(() => {
+        if (Math.random() > 0.7) { // 30% chance every interval
+            logo.style.textShadow = `
+                2px 0 #ff00de,
+                -2px 0 #00d4ff
+            `;
+            
+            setTimeout(() => {
+                logo.style.textShadow = 'none';
+            }, 100);
+        }
+    }, 5000);
+}
+
+// ========== SCROLL VELOCITY EFFECT ==========
+let lastScrollY = window.pageYOffset;
+let scrollVelocity = 0;
+
+window.addEventListener('scroll', () => {
+    const currentScrollY = window.pageYOffset;
+    scrollVelocity = Math.abs(currentScrollY - lastScrollY);
+    lastScrollY = currentScrollY;
+    
+    // Add blur effect on fast scroll
+    const sections = document.querySelectorAll('section');
+    if (scrollVelocity > 20) {
+        sections.forEach(section => {
+            section.style.filter = 'blur(2px)';
+        });
+    } else {
+        sections.forEach(section => {
+            section.style.filter = 'blur(0)';
+        });
+    }
+});
+
+// ========== INTERACTIVE STATS ==========
+// Add hover effect to stats that shows "real-time" updates
+const statItems = document.querySelectorAll('.stat-item');
+statItems.forEach(stat => {
+    stat.addEventListener('mouseenter', () => {
+        const number = stat.querySelector('.stat-number');
+        const currentValue = parseInt(number.textContent);
+        
+        // Simulate "live" increment
+        gsap.to(number, {
+            textContent: currentValue + 1,
+            duration: 0.5,
+            snap: { textContent: 1 },
+            ease: 'power2.out'
+        });
+        
+        // Revert after a moment
+        setTimeout(() => {
+            gsap.to(number, {
+                textContent: currentValue,
+                duration: 0.5,
+                snap: { textContent: 1 },
+                ease: 'power2.in'
+            });
+        }, 1500);
+    });
+});
+
+// ========== DYNAMIC PAGE TITLE ==========
+let originalTitle = document.title;
+let titleInterval;
+
+window.addEventListener('blur', () => {
+    let toggle = false;
+    titleInterval = setInterval(() => {
+        document.title = toggle ? '👋 Come back!' : '✨ Missing you...';
+        toggle = !toggle;
+    }, 2000);
+});
+
+window.addEventListener('focus', () => {
+    clearInterval(titleInterval);
+    document.title = originalTitle;
+});
+
 console.log('🚀 Premium Portfolio Loaded Successfully!');
+console.log('💎 100% Static • Looks 100% Dynamic');
+console.log('⚡ All effects are client-side only!');
