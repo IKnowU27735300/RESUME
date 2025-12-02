@@ -5,27 +5,31 @@
 
 // ========== INITIALIZATION ==========
 document.addEventListener('DOMContentLoaded', () => {
-    initLoader();
-    initCursor();
-    initNavigation();
-    initScrollProgress();
-    initParticles();
-    initGSAPAnimations();
-    initTypingEffect();
-    initCounters();
-    initSkillBars();
-    initMagneticButtons();
-    initLucideIcons();
-    initDynamicGreeting();
-    initLiveClock();
-    initDynamicBackgrounds();
-    initFloatingElements();
-    initRandomGlitchEffect();
+    try {
+        initLoader();
+        initCursor();
+        initNavigation();
+        initScrollProgress();
+        initParticles();
+        initGSAPAnimations();
+        initTypingEffect();
+        initCounters();
+        initSkillBars();
+        initMagneticButtons();
+        initLucideIcons();
+        initDynamicGreeting();
+        initLiveClock();
+        initDynamicBackgrounds();
+        initFloatingElements();
+    } catch (error) {
+        console.error('Initialization error:', error);
+    }
 });
 
 // ========== LOADING SCREEN ==========
 function initLoader() {
     const loader = document.querySelector('.loader');
+    if (!loader) return;
     
     setTimeout(() => {
         loader.classList.add('hidden');
@@ -39,7 +43,7 @@ function initCursor() {
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
     
-    if (!cursor) return;
+    if (!cursor || !cursorDot || !cursorOutline) return;
     
     let mouseX = 0;
     let mouseY = 0;
@@ -97,6 +101,8 @@ function initNavigation() {
     const mobileLinks = document.querySelectorAll('.mobile-link');
     const navLinks = document.querySelectorAll('.nav-link');
     
+    if (!navbar) return;
+
     let lastScroll = 0;
     
     // Navbar hide/show on scroll
@@ -180,6 +186,7 @@ function initNavigation() {
 // ========== SCROLL PROGRESS ==========
 function initScrollProgress() {
     const progressBar = document.querySelector('.scroll-progress-bar');
+    if (!progressBar) return;
     
     window.addEventListener('scroll', () => {
         const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -198,7 +205,7 @@ function initParticles() {
     canvas.height = window.innerHeight;
     
     const particles = [];
-    const particleCount = 100;
+    const particleCount = 50; // Reduced for performance
     const mouse = { x: null, y: null, radius: 150 };
     
     // Particle class
@@ -217,17 +224,19 @@ function initParticles() {
             this.y += this.speedY;
             
             // Mouse interaction
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < mouse.radius) {
-                const force = (mouse.radius - distance) / mouse.radius;
-                const directionX = dx / distance;
-                const directionY = dy / distance;
+            if (mouse.x != null) {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                this.x -= directionX * force * 3;
-                this.y -= directionY * force * 3;
+                if (distance < mouse.radius) {
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const directionX = dx / distance;
+                    const directionY = dy / distance;
+                    
+                    this.x -= directionX * force * 3;
+                    this.y -= directionY * force * 3;
+                }
             }
             
             // Wrap around screen
@@ -301,6 +310,8 @@ function initParticles() {
 
 // ========== GSAP ANIMATIONS ==========
 function initGSAPAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
     gsap.registerPlugin(ScrollTrigger);
     
     // Hero animations
@@ -323,18 +334,21 @@ function initGSAPAnimations() {
     
     // Section animations
     gsap.utils.toArray('section').forEach(section => {
-        gsap.from(section.querySelector('.section-header'), {
-            scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                end: 'top 50%',
-                toggleActions: 'play none none reverse'
-            },
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            ease: 'power3.out'
-        });
+        const header = section.querySelector('.section-header');
+        if (header) {
+            gsap.from(header, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    end: 'top 50%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                ease: 'power3.out'
+            });
+        }
     });
     
     // Project cards
@@ -511,21 +525,23 @@ function initSkillBars() {
                 }, 200);
                 
                 // Animate percentage counter
-                let current = 0;
-                const target = parseInt(progress);
-                const increment = target / 50;
-                
-                const updatePercentage = () => {
-                    current += increment;
-                    if (current < target) {
-                        percentage.textContent = Math.ceil(current) + '%';
-                        requestAnimationFrame(updatePercentage);
-                    } else {
-                        percentage.textContent = target + '%';
-                    }
-                };
-                
-                setTimeout(updatePercentage, 200);
+                if (percentage) {
+                    let current = 0;
+                    const target = parseInt(progress);
+                    const increment = target / 50;
+                    
+                    const updatePercentage = () => {
+                        current += increment;
+                        if (current < target) {
+                            percentage.textContent = Math.ceil(current) + '%';
+                            requestAnimationFrame(updatePercentage);
+                        } else {
+                            percentage.textContent = target + '%';
+                        }
+                    };
+                    
+                    setTimeout(updatePercentage, 200);
+                }
                 observer.unobserve(bar);
             }
         });
@@ -762,12 +778,14 @@ function initDynamicBackgrounds() {
     const hour = new Date().getHours();
     const heroSection = document.querySelector('.hero');
     
-    if (hour >= 6 && hour < 12) {
-        // Morning - warmer tones
-        heroSection.style.setProperty('--orb-color-1', 'rgba(255, 179, 71, 0.3)');
-    } else if (hour >= 18 || hour < 6) {
-        // Evening/Night - cooler tones
-        heroSection.style.setProperty('--orb-color-1', 'rgba(99, 102, 241, 0.3)');
+    if (heroSection) {
+        if (hour >= 6 && hour < 12) {
+            // Morning - warmer tones
+            heroSection.style.setProperty('--orb-color-1', 'rgba(255, 179, 71, 0.3)');
+        } else if (hour >= 18 || hour < 6) {
+            // Evening/Night - cooler tones
+            heroSection.style.setProperty('--orb-color-1', 'rgba(99, 102, 241, 0.3)');
+        }
     }
 }
 
@@ -798,9 +816,9 @@ function initFloatingElements() {
     const skillBubbles = document.querySelectorAll('.skill-bubble');
     skillBubbles.forEach((bubble, index) => {
         gsap.to(bubble, {
-            y: '+=15',
-            x: index % 2 === 0 ? '+=10' : '-=10',
-            duration: 3 + Math.random() * 2,
+            y: -10,
+            rotation: 5,
+            duration: 1.5,
             repeat: -1,
             yoyo: true,
             ease: 'sine.inOut',
@@ -808,94 +826,3 @@ function initFloatingElements() {
         });
     });
 }
-
-// ========== RANDOM GLITCH EFFECT ==========
-function initRandomGlitchEffect() {
-    const logo = document.querySelector('.logo-text');
-    if (!logo) return;
-    
-    // Occasional subtle glitch effect on logo
-    setInterval(() => {
-        if (Math.random() > 0.7) { // 30% chance every interval
-            logo.style.textShadow = `
-                2px 0 #ff00de,
-                -2px 0 #00d4ff
-            `;
-            
-            setTimeout(() => {
-                logo.style.textShadow = 'none';
-            }, 100);
-        }
-    }, 5000);
-}
-
-// ========== SCROLL VELOCITY EFFECT ==========
-let lastScrollY = window.pageYOffset;
-let scrollVelocity = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScrollY = window.pageYOffset;
-    scrollVelocity = Math.abs(currentScrollY - lastScrollY);
-    lastScrollY = currentScrollY;
-    
-    // Add blur effect on fast scroll
-    const sections = document.querySelectorAll('section');
-    if (scrollVelocity > 20) {
-        sections.forEach(section => {
-            section.style.filter = 'blur(2px)';
-        });
-    } else {
-        sections.forEach(section => {
-            section.style.filter = 'blur(0)';
-        });
-    }
-});
-
-// ========== INTERACTIVE STATS ==========
-// Add hover effect to stats that shows "real-time" updates
-const statItems = document.querySelectorAll('.stat-item');
-statItems.forEach(stat => {
-    stat.addEventListener('mouseenter', () => {
-        const number = stat.querySelector('.stat-number');
-        const currentValue = parseInt(number.textContent);
-        
-        // Simulate "live" increment
-        gsap.to(number, {
-            textContent: currentValue + 1,
-            duration: 0.5,
-            snap: { textContent: 1 },
-            ease: 'power2.out'
-        });
-        
-        // Revert after a moment
-        setTimeout(() => {
-            gsap.to(number, {
-                textContent: currentValue,
-                duration: 0.5,
-                snap: { textContent: 1 },
-                ease: 'power2.in'
-            });
-        }, 1500);
-    });
-});
-
-// ========== DYNAMIC PAGE TITLE ==========
-let originalTitle = document.title;
-let titleInterval;
-
-window.addEventListener('blur', () => {
-    let toggle = false;
-    titleInterval = setInterval(() => {
-        document.title = toggle ? '👋 Come back!' : '✨ Missing you...';
-        toggle = !toggle;
-    }, 2000);
-});
-
-window.addEventListener('focus', () => {
-    clearInterval(titleInterval);
-    document.title = originalTitle;
-});
-
-console.log('🚀 Premium Portfolio Loaded Successfully!');
-console.log('💎 100% Static • Looks 100% Dynamic');
-console.log('⚡ All effects are client-side only!');
