@@ -1,0 +1,13 @@
+ Volume in drive S is New Volume
+ Volume Serial Number is CEA4-E070
+
+ Directory of s:\CLG\Projects\RESUME-main\public
+
+03/24/2026  11:16 PM    <DIR>          .
+03/24/2026  11:16 PM    <DIR>          ..
+03/24/2026  11:12 PM                 6 .keep
+03/24/2026  11:07 PM           770,808 aitm_preview.png
+03/24/2026  11:08 PM           404,338 excellent_preview.png
+03/24/2026  11:07 PM           355,529 tungal_preview.png
+               4 File(s)      1,530,681 bytes
+               2 Dir(s)  582,374,776,832 bytes free

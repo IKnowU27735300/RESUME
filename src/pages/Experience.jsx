@@ -120,9 +120,9 @@ function TypingAvatar() {
         </mesh>
         <mesh position={[0, 0, 0.03]}>
           <planeGeometry args={[1.9, 1.1]} />
-          <meshBasicMaterial color="#ff7eb3" />
+          <meshBasicMaterial color="#D4AF37" />
         </mesh>
-        <pointLight position={[0, 0, 0.5]} intensity={2.5} color="#ff7eb3" distance={4} />
+        <pointLight position={[0, 0, 0.5]} intensity={2.5} color="#D4AF37" distance={4} />
       </group>
 
       {/* Keyboard */}
@@ -273,7 +273,7 @@ const expData = [
     company: "TAP Academy",
     date: "Feb 2026 - Present",
     desc: "Working on advanced projects and gaining full-stack exposure.",
-    color: "#ff9a9e",
+    color: "#D4AF37",
     rotation: -2,
   },
   {
@@ -281,7 +281,7 @@ const expData = [
     company: "Angadi Institute of Technology and Management",
     date: "Sep 2025 - Feb 2026",
     desc: "Led academic and co-curricular initiatives bridging classroom learning with industry readiness.",
-    color: "#a18cd1",
+    color: "#C5A021",
     rotation: 2,
   },
   {
@@ -289,7 +289,7 @@ const expData = [
     company: "ACM Student Chapter",
     date: "Apr 2023 - May 2024",
     desc: "Enhanced student engagement and event visibility leveraging leadership, organizational, and marketing skills.",
-    color: "#fbc2eb",
+    color: "#E6BE8A",
     rotation: -1,
   }
 ];
@@ -298,83 +298,94 @@ export default function Experience() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   return (
-    <div className="w-full h-full min-h-[90vh] flex flex-col-reverse lg:grid lg:grid-cols-2 px-4 lg:px-12 py-10 lg:py-16 relative">
+    <div className="w-full flex-grow flex flex-col-reverse lg:grid lg:grid-cols-2 px-4 md:px-12 lg:px-16 xl:px-24 py-10 lg:py-20 relative gap-12 lg:gap-0 min-h-screen">
       
-      {/* Experience Timeline Flowing on Left Column (Switched) */}
-      <div className="w-full h-full flex flex-col items-center lg:items-start justify-center gap-8 relative z-10 col-span-1 lg:pr-10">
+      {/* Experience Timeline */}
+      <div className="w-full flex flex-col items-center lg:items-start justify-center relative z-10 lg:pr-12">
         
-        <h2 className="hidden lg:block w-full text-4xl xl:text-5xl font-display font-bold mb-6 text-left max-w-xl">
-           Professional <br/><span className="text-gradient leading-tight">Experience</span>
-        </h2>
+        <div className="mb-12 text-center lg:text-left w-full">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-decorative font-bold tracking-tight leading-tight uppercase">
+             Professional <br className="hidden lg:block"/><span className="text-gradient">Experience</span>
+          </h2>
+          <p className="text-gray-500 font-mono text-xs uppercase tracking-[0.2em] mt-2">Career Roadmap</p>
+        </div>
         
-        <div className="w-full max-w-xl flex flex-col gap-8 md:gap-12 pb-10">
+        <div className="w-full max-w-2xl flex flex-col gap-8 pb-10">
           {expData.map((exp, idx) => {
             const isHovered = hoveredIdx === idx;
             return (
               <motion.div
                 key={idx}
-                whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
+                whileHover={{ scale: 1.02, x: 10 }}
                 onHoverStart={() => setHoveredIdx(idx)}
                 onHoverEnd={() => setHoveredIdx(null)}
-                initial={{ rotate: exp.rotation, opacity: 0, y: 50 }}
-                animate={{ rotate: isHovered ? 0 : exp.rotation, opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  boxShadow: isHovered ? `0 0 30px ${exp.color}40, 0 0 10px ${exp.color}` : 'none',
-                  borderColor: isHovered ? exp.color : 'rgba(255, 255, 255, 0.1)'
-                }}
-                className="glass p-6 md:p-8 rounded-xl w-full relative cursor-default"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="glass p-8 md:p-10 rounded-3xl w-full relative group border border-white/5 overflow-hidden transition-all duration-500 shadow-xl"
               >
-                {/* Pin Decoration */}
                 <div 
-                  className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full shadow-md z-10"
-                  style={{ backgroundColor: '#222', border: `2px solid ${exp.color}` }}
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                  style={{ backgroundColor: exp.color }}
                 />
                 
-                <div 
-                  className="absolute inset-0 rounded-xl opacity-20 -z-10 transition-colors"
-                  style={{ backgroundColor: isHovered ? exp.color : 'transparent' }}
-                />
-                
-                <div className="text-xs font-mono text-gray-400 mb-2">{exp.date}</div>
-                <h3 className="text-2xl font-bold mb-1" style={{ color: isHovered ? exp.color : '#fff' }}>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                  <div className="text-[10px] font-mono font-bold px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/10 w-fit">
+                    {exp.date}
+                  </div>
+                  <div className="flex gap-1">
+                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: exp.color }} />
+                     <div className="w-2 h-2 rounded-full opacity-40" style={{ backgroundColor: exp.color }} />
+                     <div className="w-2 h-2 rounded-full opacity-20" style={{ backgroundColor: exp.color }} />
+                  </div>
+                </div>
+
+                <h3 className="text-2xl md:text-3xl font-display font-black mb-1 group-hover:translate-x-1 transition-transform" style={{ color: isHovered ? exp.color : '#fff' }}>
                   {exp.role}
                 </h3>
-                <h4 className="text-lg text-gray-300 font-medium mb-4">{exp.company}</h4>
-                <p className="text-gray-400 leading-relaxed font-sans">{exp.desc}</p>
+                <h4 className="text-lg text-gray-400 font-medium mb-6 flex items-center gap-2">
+                  <span className="w-4 h-[1px] bg-white/20" />
+                  {exp.company}
+                </h4>
+                <p className="text-gray-500 group-hover:text-gray-300 leading-relaxed font-sans transition-colors">
+                  {exp.desc}
+                </p>
               </motion.div>
             );
           })}
         </div>
       </div>
 
-      {/* 3D Worker Representation mapped strictly to Right Column (Switched) */}
-      <div className="w-full min-h-[400px] lg:h-full relative col-span-1 flex items-center justify-center pointer-events-none mb-10 lg:mb-0">
-        <h2 className="absolute top-4 left-4 lg:hidden text-4xl md:text-5xl font-display font-bold text-left z-10 w-full mb-16 shadow-black drop-shadow-lg">
-           Professional <span className="text-gradient">Experience</span>
-        </h2>
+      {/* 3D Scene */}
+      <div className="w-full min-h-[450px] md:min-h-[550px] lg:h-full relative flex items-center justify-center">
         <div className="absolute inset-0 w-full h-full lg:scale-110 xl:scale-125 z-0 pointer-events-auto cursor-grab active:cursor-grabbing">
-          {/* Flipped camera position to the right side so it looks inward */}
-          <Canvas camera={{ position: [3, 3, 5], fov: 45 }} shadows>
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[-5, 10, 5]} intensity={1.5} castShadow shadow-mapSize={[1024, 1024]} />
-            <Float speed={2} rotationIntensity={0.2} floatIntensity={0.4}>
-              <group position={[0, -0.5, 0]}>
-                {/* Flipped default rotation so the avatar turns slightly towards the content on the left */}
+          <Canvas camera={{ position: [4, 3, 6], fov: 40 }} shadows dpr={[1, 2]}>
+            <ambientLight intensity={0.4} />
+            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+            <directionalLight position={[-5, 5, 5]} intensity={0.8} />
+            
+            <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+              <group position={[0, -0.8, 0]}>
                 <PresentationControls
                   global
-                  config={{ mass: 2, tension: 400 }}
-                  snap={{ mass: 4, tension: 300 }}
-                  rotation={[0, -Math.PI / 5, 0]}
-                  polar={[-Math.PI / 6, Math.PI / 6]}
-                  azimuth={[-Math.PI / 3, Math.PI / 3]}
+                  config={{ mass: 1, tension: 200 }}
+                  snap={{ mass: 2, tension: 150 }}
+                  rotation={[0, -Math.PI / 4, 0]}
+                  polar={[-Math.PI / 10, Math.PI / 10]}
+                  azimuth={[-Math.PI / 4, Math.PI / 4]}
                 >
                   <TypingAvatar />
                 </PresentationControls>
               </group>
             </Float>
-            <ContactShadows position={[0, -1.6, 0]} opacity={0.6} scale={15} blur={3} far={4} />
+            <ContactShadows position={[0, -1.8, 0]} opacity={0.4} scale={12} blur={2.5} far={4} color="#000" />
           </Canvas>
+        </div>
+        
+        {/* Mobile Header Overlay */}
+        <div className="absolute top-0 left-0 w-full lg:hidden pointer-events-none p-4 flex flex-col items-center">
+           <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
       </div>
 

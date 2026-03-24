@@ -49,8 +49,8 @@ export default function LoadingPage() {
             />
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00f0ff" />
-                <stop offset="100%" stopColor="#bc13fe" />
+                <stop offset="0%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#E6BE8A" />
               </linearGradient>
             </defs>
           </svg>

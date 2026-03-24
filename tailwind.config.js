@@ -7,17 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        darkBg: '#0f0f13',
+        darkBg: '#050505',
         darkGlass: 'rgba(255, 255, 255, 0.05)',
         darkBorder: 'rgba(255, 255, 255, 0.1)',
-        accentPrimary: '#00f0ff',
-        accentSecondary: '#bc13fe',
-        accentTertiary: '#00ff9d',
-        accentQuaternary: '#ff0055',
+        accentPrimary: '#D4AF37',   // Classic Gold
+        accentSecondary: '#C5A021', // Darker Gold
+        accentTertiary: '#E6BE8A',  // Pale Gold
+        accentQuaternary: '#8B7226', // Bronze/Deep Gold
       },
       fontFamily: {
         sans: ['"Space Grotesk"', 'sans-serif'],
         display: ['Outfit', 'sans-serif'],
+        decorative: ['"Cinzel Decorative"', 'cursive'],
       }
     },
   },

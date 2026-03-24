@@ -1,120 +1,193 @@
-import React, { useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { useState, useRef, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float, Text } from '@react-three/drei';
+import { motion } from 'framer-motion';
 
-// Convert scatter coordinates into tighter 3D Scene space coordinates [X, Y, Z] to strictly prevent edge clipping
+// Simplified skillsData – motion parameters will be calculated via index
 const skillsData = [
-  // Top row
-  { name: 'Java', color: '#00ff9d', pos: [-2.8, 2.8, -1] },
-  { name: 'AI/ML', color: '#bc13fe', pos: [0.0, 3.5, -3] },
-  { name: 'Gen AI', color: '#00f0ff', pos: [2.8, 3.0, -2] },
-  // Middle row (far left/right)
-  { name: 'MongoDB', color: '#00f0ff', pos: [-4.0, 0.5, 2] },
-  { name: 'Tailwind', color: '#00f0ff', pos: [4.0, -0.5, 1] },
-  // Bottom row
-  { name: 'Python', color: '#bc13fe', pos: [-3.5, -2.5, 1] },
-  { name: 'React', color: '#ff0055', pos: [-1.8, -3.5, -1] },
-  { name: 'Next.js', color: '#00ff9d', pos: [1.0, -3.8, 3] },
-  { name: 'Cyber Security', color: '#ff0055', pos: [3.5, -2.8, 1] },
+  { name: 'Java', color: '#D4AF37' },
+  { name: 'AI/ML', color: '#C5A021' },
+  { name: 'Gen AI', color: '#E6BE8A' },
+  { name: 'MongoDB', color: '#D4AF37' },
+  { name: 'Tailwind', color: '#C5A021' },
+  { name: 'Python', color: '#E6BE8A' },
+  { name: 'React', color: '#D4AF37' },
+  { name: 'Next.js', color: '#C5A021' },
+  { name: 'Cyber Security', color: '#E6BE8A' },
 ];
 
-function MechanicalSkillKey({ name, color, pos }) {
-  const width = Math.max(1.8, name.length * 0.28);
-  const depth = 1.2;
-  const height = 0.5;
+const staticSkillsData = [
+  // Left Anchor Cluster (Data Visualization)
+  { name: 'Power BI', color: '#f2c811', pos: [-23, 6, 2] },
+  { name: 'Tableau', color: '#e97627', pos: [-23, -2, 2] },
+  
+  // Right Anchor Cluster (Cloud & Workflow)
+  { name: 'GitHub', color: '#ffffff', pos: [23, 6, 2] },
+  { name: 'Firebase', color: '#ffca28', pos: [23, -2, 2] },
+];
+
+function MechanicalSkillKey({ name, color, index, staticPos, isMobile }) {
+  const meshRef = useRef();
+  const { viewport } = useThree();
+  
+  const width = Math.max(isMobile ? 2.5 : 3.5, name.length * (isMobile ? 0.45 : 0.6));
+  const depth = isMobile ? 1.5 : 2.5;
+  const height = isMobile ? 0.8 : 1.2;
 
   const [hovered, setHovered] = useState(false);
 
-  // Random base tilts to make them feel truly floating randomly in space
-  const tiltX = Math.PI / 6 + (Math.random() * 0.2);
-  const tiltY = (Math.random() * 0.5) - 0.25;
+  // Dynamic orbital physics
+  const baseRadiusX = isMobile ? viewport.width * 0.4 : viewport.width * 0.28;
+  const baseRadiusY = isMobile ? viewport.height * 0.28 : viewport.height * 0.2;
+  
+  const radiusX = baseRadiusX + (index % 3) * (isMobile ? 0.5 : 1.5); 
+  const radiusY = baseRadiusY + (index % 2) * (isMobile ? 0.3 : 1.0); 
+  const angularSpeed = 0.08 + (index * 0.015); 
+  const phaseOffset = index ? (index * (Math.PI * 2)) / 9 : 0; 
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    
+    if (staticPos) {
+      const t = state.clock.getElapsedTime();
+      const responsivePos = isMobile ? [staticPos[0] * 0.45, staticPos[1] * 0.8, staticPos[2]] : staticPos;
+      meshRef.current.position.set(responsivePos[0], responsivePos[1] + Math.sin(t * 1.5) * 0.4, responsivePos[2]);
+      meshRef.current.rotation.x = Math.PI / 2.2 + Math.sin(t * 0.5) * 0.1;
+    } else {
+      const t = state.clock.getElapsedTime() * angularSpeed + phaseOffset;
+      meshRef.current.position.x = Math.cos(t) * radiusX;
+      meshRef.current.position.y = Math.sin(t) * radiusY;
+      meshRef.current.position.z = Math.sin(t * 0.5) * 1.5;
+      meshRef.current.rotation.x = Math.PI / 2.5 + Math.sin(t * 0.4) * 0.12;
+      meshRef.current.rotation.y = Math.cos(t * 0.2) * 0.1;
+    }
+  });
 
   return (
-    <Float speed={1.5 + Math.random()} rotationIntensity={1.2} floatIntensity={2.5} floatingRange={[-0.6, 0.6]}>
-      <group 
-        position={pos} 
-        rotation={[tiltX, tiltY, 0]}
-        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor='pointer'; }}
-        onPointerOut={(e) => { e.stopPropagation(); setHovered(false); document.body.style.cursor='auto'; }}
-      >
-        {/* Scaled wrapper for interaction spring effect */}
+    <group 
+      ref={meshRef}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor='pointer'; }}
+      onPointerOut={(e) => { e.stopPropagation(); setHovered(false); document.body.style.cursor='auto'; }}
+    >
         <group scale={hovered ? 1.15 : 1}>
-          
-          {/* Base Keycap */}
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[width, height * 0.6, depth]} />
-            <meshStandardMaterial color="#111" roughness={0.7} metalness={0.4} />
+          {/* Key Base - Brighter for visibility */}
+          <mesh position={[0, -height * 0.2, 0]}>
+            <boxGeometry args={[width, height * 0.8, depth]} />
+            <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.4} />
           </mesh>
           
-          {/* Top Keycap Bevel */}
-          <mesh position={[0, height * 0.4, 0]}>
-            <boxGeometry args={[width - 0.15, height * 0.2, depth - 0.15]} />
+          {/* Glowing Top Surface */}
+          <mesh position={[0, height * 0.3, 0]}>
+            <boxGeometry args={[width - 0.2, height * 0.2, depth - 0.2]} />
             <meshStandardMaterial 
-              color="#1a1a1a" 
-              roughness={0.3} 
-              metalness={0.5} 
+              color="#222" 
+              roughness={0.2} 
+              metalness={0.9} 
               emissive={hovered ? color : '#000'}
-              emissiveIntensity={hovered ? 0.4 : 0}
+              emissiveIntensity={hovered ? 1.5 : 0}
             />
           </mesh>
-
-          {/* Aggressive Switch Underglow (Mechanical RGB vibe) */}
-          <mesh position={[0, -height * 0.35, 0]}>
-            <boxGeometry args={[width - 0.3, 0.1, depth - 0.3]} />
-            <meshStandardMaterial color="#000" emissive={color} emissiveIntensity={hovered ? 4 : 0.5} />
+          
+          {/* Bottom Edge Light */}
+          <mesh position={[0, -height * 0.5, 0]}>
+            <boxGeometry args={[width - 0.4, 0.08, depth - 0.4]} />
+            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={hovered ? 6 : 1.2} />
           </mesh>
 
-          {/* Key Label */}
           <Text 
-            position={[0, height * 0.52, 0]} 
+            position={[0, height * 0.45, 0]} 
             rotation={[-Math.PI / 2, 0, 0]} 
-            fontSize={0.22} 
-            color={hovered ? '#fff' : '#ccc'}
+            fontSize={isMobile ? 0.45 : 0.65} 
+            color={hovered ? '#fff' : '#aaa'}
             anchorX="center" 
             anchorY="middle"
             fontWeight="bold"
+            maxWidth={width - 0.5}
+            textAlign="center"
           >
             {name}
           </Text>
-
         </group>
       </group>
-    </Float>
+  );
+}
+
+function ResponsiveScene({ isMobile }) {
+  return (
+    <React.Suspense fallback={null}>
+      <ambientLight intensity={1.2} />
+      <spotLight position={[10, 25, 15]} angle={0.2} penumbra={1} intensity={3} castShadow />
+      <directionalLight position={[-10, 10, 5]} intensity={0.8} color="#C5A021" />
+      <pointLight position={[0, 0, 10]} intensity={1} color="#E6BE8A" />
+      
+      <group position={[0, isMobile ? 1 : 2, 0]}>
+        {skillsData.map((skill, idx) => (
+          <MechanicalSkillKey key={idx} index={idx} name={skill.name} color={skill.color} isMobile={isMobile} />
+        ))}
+        {staticSkillsData.map((skill, idx) => (
+          <MechanicalSkillKey key={`static-${idx}`} name={skill.name} color={skill.color} staticPos={skill.pos} isMobile={isMobile} />
+        ))}
+      </group>
+    </React.Suspense>
   );
 }
 
 export default function Skills() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
-    <div className="w-full h-full flex flex-col items-center py-10 px-4 relative">
-      <h2 className="text-4xl md:text-5xl font-display font-bold mb-16 text-center z-10 pointer-events-none drop-shadow-md">
-        Technical <span className="text-gradient">Skills</span>
-      </h2>
+    <div className="w-full flex-grow flex flex-col items-center pt-8 pb-16 px-4 relative overflow-hidden min-h-screen">
       
-      {/* 3D Floating Area */}
-      <div className="absolute inset-0 z-0 top-[100px] w-full h-[calc(100vh-100px)] lg:h-[90vh]">
-        {/* Pulled the camera back to Z=13 so the floating keys are naturally framed and safely inside the view area without clipping */}
-        <Canvas camera={{ position: [0, 0, 16], fov: 50 }}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 15, 10]} intensity={1.5} />
-          <pointLight position={[0, -5, 5]} intensity={0.5} color="#bc13fe" />
-          
-          <group position={[0, 0, 0]}>
-            {skillsData.map((skill, idx) => (
-              <MechanicalSkillKey key={idx} name={skill.name} color={skill.color} pos={skill.pos} />
-            ))}
-          </group>
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-accentPrimary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accentSecondary/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="relative z-10 text-center space-y-2 mb-6">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-5xl lg:text-7xl font-decorative font-bold tracking-tight uppercase"
+        >
+          Technical <span className="text-gradient">Skills</span>
+        </motion.h2>
+        <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.4em]">Proprietary 3D Ecosystem</p>
+      </div>
+      
+      {/* 3D Floating Area - Sized to leave room for content below */}
+      <div className="absolute inset-x-0 top-0 bottom-[35%] z-0">
+        <Canvas camera={{ position: [0, 0, isMobile ? 30 : 45], fov: 40 }} dpr={[1, 2]}>
+          <ResponsiveScene isMobile={isMobile} />
         </Canvas>
       </div>
 
-      <div className="relative w-full flex-grow flex items-center justify-center min-h-[500px] z-10 pointer-events-none">
-        <div className="glass p-8 rounded-xl max-w-sm text-center shadow-[0_0_50px_rgba(0,0,0,0.8)] pointer-events-auto border border-darkBorder bg-darkBg/80 backdrop-blur-md">
-          <h3 className="mb-4 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-            About My Approach
+      {/* About Box - Positioned to complement the 'circle' above */}
+      <div className="mt-auto w-full flex justify-center z-10 py-6">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="glass p-8 md:p-12 rounded-[2.5rem] w-full max-w-2xl text-center shadow-2xl border border-white/5 bg-black/40 backdrop-blur-3xl mx-4 group hover:border-white/10 transition-colors"
+        >
+          <div className="h-1 w-20 bg-gradient-to-r from-accentPrimary to-accentSecondary mx-auto mb-8 rounded-full opacity-50" />
+          
+          <h3 className="mb-6 text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
+            Engineering Strategy
           </h3>
-          <p className="text-sm text-gray-300 font-sans leading-relaxed">
-            I am passionate about combining creativity with analytical problem-solving to deliver value in the real world. Over the years, I have developed numerous real-world projects addressing practical challenges—ranging from creating impactful presentation materials to designing training modules for company placements.
+          <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed group-hover:text-gray-300 transition-colors">
+            My development philosophy centers on <span className="text-white font-bold">Performance</span> and 
+            <span className="text-white font-bold"> Scalability</span>. I leverage cutting-edge 
+            <span className="text-accentPrimary font-bold"> AI models</span> and 
+            <span className="text-accentSecondary font-bold"> immersive UI</span> to transform complex requirements into 
+            intuitive user journeys. Every orbit in this ecosystem represents a pillar of my technical foundation.
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
