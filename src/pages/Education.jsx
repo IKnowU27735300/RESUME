@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ParticleHeader from '../components/ParticleHeader';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { EducationLeft3D, EducationRight3D } from '../components/Education3D';
@@ -49,12 +50,12 @@ export default function Education() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   return (
-    <div className="w-full relative flex flex-col items-center py-12 px-4 mb-20">
-      <div className="relative z-10 text-center space-y-4 mb-16">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-decorative font-bold uppercase">
-          Academic <span className="text-gradient">Background</span>
-        </h2>
-        <p className="text-gray-400 font-mono text-xs uppercase tracking-widest">Journey of Learning</p>
+    <div className="w-full relative flex flex-col items-center py-12 mb-20">
+      <div className="relative z-10 text-center space-y-4 mb-16 w-full h-24">
+        <ParticleHeader 
+          text="Academic Background" 
+          subtext="Journey of Learning"
+        />
       </div>
 
       {/* 3D Side Decorations */}

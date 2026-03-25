@@ -12,7 +12,10 @@ export default function GlobalNav({ activePage, setActivePage }) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handlePageSelect = (p) => {
-    setActivePage(p);
+    const element = document.getElementById(p);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsMenuOpen(false);
   };
 

@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import ParticleHeader from '../components/ParticleHeader';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Send, Github, Linkedin, Smartphone, Phone } from 'lucide-react';
 import { TelephoneView, SmartphoneView } from '../components/Contact3D';
 
 export default function Contact() {
   const [userEmail, setUserEmail] = useState('');
   const [subjectOption, setSubjectOption] = useState('Want to work with you');
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"]
+  });
+
+  const modelOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
 
   const handleSendMail = (e) => {
     e.preventDefault();
@@ -20,23 +29,24 @@ export default function Contact() {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center py-20 px-4 relative overflow-hidden">
+    <div ref={containerRef} className="w-full min-h-screen flex flex-col items-center justify-center py-20 relative overflow-hidden">
       
       {/* Background Orbs */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-[#C5A021]/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 text-center mb-16 px-4">
-        <h2 className="text-4xl md:text-5xl lg:text-7xl font-decorative font-bold tracking-tight mb-4 uppercase">
-          Get In <span className="text-gradient">Touch</span>
-        </h2>
-        <p className="text-gray-400 font-mono text-xs uppercase tracking-[0.3em]">Let's Build the Future</p>
+      <div className="relative z-10 text-center mb-16 px-4 w-full h-24">
+        <ParticleHeader 
+          text="Get In Touch" 
+          subtext="Let's Build the Future"
+        />
       </div>
 
       <div className="w-full max-w-7xl flex flex-col xl:flex-row items-center justify-center gap-12 lg:gap-20">
         
         {/* Left Side Model: Telephone (Hidden on small mobile to focus on form) */}
         <motion.div 
+          style={{ opacity: modelOpacity }}
           className="hidden md:flex xl:w-1/4 flex-col items-center order-2 xl:order-1"
           initial={{ x: -50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
@@ -130,6 +140,7 @@ export default function Contact() {
 
         {/* Right Side Model: Smartphone */}
         <motion.div 
+          style={{ opacity: modelOpacity }}
           className="flex xl:w-1/4 flex-col items-center order-3"
           initial={{ x: 50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}

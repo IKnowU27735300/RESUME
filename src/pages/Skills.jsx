@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ParticleHeader from '../components/ParticleHeader';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float, Text } from '@react-three/drei';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 // Simplified skillsData – motion parameters will be calculated via index
 const skillsData = [
@@ -134,6 +135,7 @@ function ResponsiveScene({ isMobile }) {
 
 export default function Skills() {
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -142,30 +144,33 @@ export default function Skills() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0.7, 1.0], [1, 0]);
+
   return (
-    <div className="w-full flex-grow flex flex-col items-center pt-8 pb-16 px-4 relative overflow-hidden min-h-screen">
+    <div ref={containerRef} className="w-full flex-grow flex flex-col items-center pt-8 pb-16 relative overflow-hidden min-h-screen">
       
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-accentPrimary/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accentSecondary/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 text-center space-y-2 mb-6">
-        <motion.h2 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl lg:text-7xl font-decorative font-bold tracking-tight uppercase"
-        >
-          Technical <span className="text-gradient">Skills</span>
-        </motion.h2>
-        <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.4em]">Proprietary 3D Ecosystem</p>
+      <div className="relative z-10 text-center space-y-4 mb-20 w-full h-24">
+        <ParticleHeader 
+          text="Technical Skills" 
+          subtext="Proprietary 3D Ecosystem"
+        />
       </div>
       
       {/* 3D Floating Area - Sized to leave room for content below */}
-      <div className="absolute inset-x-0 top-0 bottom-[35%] z-0">
+      <motion.div style={{ opacity }} className="absolute inset-x-0 top-0 bottom-[35%] z-0">
         <Canvas camera={{ position: [0, 0, isMobile ? 30 : 45], fov: 40 }} dpr={[1, 2]}>
           <ResponsiveScene isMobile={isMobile} />
         </Canvas>
-      </div>
+      </motion.div>
 
       {/* About Box - Positioned to complement the 'circle' above */}
       <div className="mt-auto w-full flex justify-center z-10 py-6">

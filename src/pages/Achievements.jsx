@@ -1,4 +1,5 @@
 import React from 'react';
+import ParticleHeader from '../components/ParticleHeader';
 import { motion } from 'framer-motion';
 import { Award, ShieldCheck, Trophy, FileCode, Lightbulb, ExternalLink } from 'lucide-react';
 import ThreeTrophy from '../components/ThreeTrophy';
@@ -20,12 +21,12 @@ const certs = [
 
 export default function Achievements() {
   return (
-    <div className="w-full min-h-screen flex flex-col items-center py-12 px-4 md:px-12 lg:px-24">
-      <div className="text-center mb-16 space-y-4">
-        <h2 className="text-4xl md:text-5xl lg:text-7xl font-decorative font-bold tracking-tight uppercase">
-          Awards & <span className="text-gradient">Certificates</span>
-        </h2>
-        <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.3em]">Validating Core Expertise</p>
+    <div className="w-full min-h-screen flex flex-col items-center py-12">
+      <div className="text-center mb-16 space-y-4 w-full h-24">
+        <ParticleHeader 
+          text="Awards & Certificates" 
+          subtext="Validating Core Expertise"
+        />
       </div>
       
       <div className="flex flex-col xl:flex-row items-start w-full max-w-7xl gap-12 lg:gap-16">

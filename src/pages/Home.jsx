@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { MapPin, ArrowRight, ArrowUpRight } from 'lucide-react';
 import ThreeKeyboard from '../components/ThreeKeyboard';
 
 export default function Home() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const keyboardOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const keyboardScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
+
   const fullText = "Anish Tanaji Inamadar";
   const [typedText, setTypedText] = useState('');
   
@@ -20,20 +29,24 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col items-start justify-center relative px-4 md:px-12 lg:px-24 min-h-[90vh]">
+    <div ref={containerRef} className="w-full h-full flex flex-col items-start justify-center relative min-h-[90vh]">
       
-      {/* 3D Keyboard Ambient Background - Fixed to escape App.jsx container, radial mask to blur edges */}
-      <div 
+      {/* 3D Keyboard Ambient Background - Fades on scroll to avoid overlap with Experience */}
+      <motion.div 
         className="fixed inset-0 z-0 pointer-events-none flex items-center justify-end overflow-hidden"
         style={{
+          opacity: keyboardOpacity,
           maskImage: 'radial-gradient(ellipse at 80% 60%, black 10%, transparent 60%)',
           WebkitMaskImage: 'radial-gradient(ellipse at 80% 60%, black 10%, transparent 60%)'
         }}
       >
-        <div className="w-[100vw] h-[100vh] mt-20 scale-[1.2] md:scale-100 opacity-60 md:opacity-100">
+        <motion.div 
+          className="w-[100vw] h-[100vh] mt-20 opacity-60 md:opacity-100"
+          style={{ scale: keyboardScale }}
+        >
           <ThreeKeyboard />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Left Content Frontend Overlay */}
       <div className="flex flex-col justify-center items-start space-y-6 md:space-y-8 relative z-10 w-full max-w-[1200px] mt-12 md:mt-0">
@@ -62,7 +75,9 @@ export default function Home() {
         
         <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
           <button 
-            onClick={() => {}} // Integration logic if needed
+            onClick={() => {
+              document.getElementById('Experience')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             className="glass flex items-center justify-center px-8 py-4 rounded-2xl hover:bg-white hover:text-black transition-all group font-bold shadow-lg hover:shadow-accentPrimary/40 border border-white/5"
           >
             Explore Work

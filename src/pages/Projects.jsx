@@ -1,4 +1,5 @@
 import React from 'react';
+import ParticleHeader from '../components/ParticleHeader';
 import { 
   motion,
   useAnimationFrame,
@@ -169,13 +170,11 @@ export default function Projects() {
 
   return (
     <div className="w-full flex-grow flex flex-col items-center py-16 md:py-24 overflow-hidden select-none">
-      <div className="text-center mb-16 space-y-4 px-4 overflow-visible">
-        <h2 className="text-4xl md:text-5xl lg:text-7xl font-decorative font-bold tracking-tight uppercase">
-          My <span className="text-gradient">Creations</span>
-        </h2>
-        <p className="text-gray-500 font-mono text-[10px] uppercase tracking-[0.3em]">
-          Interactive Portfolio <span className="mx-2">/</span> Drag to Explore
-        </p>
+      <div className="text-center mb-16 space-y-4 px-4 overflow-visible w-full h-24">
+        <ParticleHeader 
+          text="My Creations" 
+          subtext="Interactive Portfolio / Drag to Explore"
+        />
       </div>
       
       <div 
