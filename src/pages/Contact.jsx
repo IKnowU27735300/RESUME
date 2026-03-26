@@ -56,7 +56,7 @@ export default function Contact() {
             <TelephoneView />
           </div>
           <div className="flex items-center gap-2 text-gray-500 font-mono text-[10px] uppercase tracking-widest mt-4">
-            <Phone className="w-3 h-3 text-accentSecondary" /> Analog Heritage
+            <Phone className="w-3 h-3 text-accentSecondary" /> +91 8762352662
           </div>
         </motion.div>
 
