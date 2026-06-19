@@ -60,29 +60,31 @@
 @keyframes pulseGlow {
   0%, 100% { 
     opacity: 0.3;
-    transform: scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   50% { 
     opacity: 0.8;
-    transform: scale(1.15);
+    transform: translate3d(0, 0, 0) scale(1.15);
   }
 }
 
 .animate-glow {
   animation: pulseGlow 10s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes pulseGlowDelayed {
   0%, 100% { 
     opacity: 0.2;
-    transform: scale(1.1);
+    transform: translate3d(0, 0, 0) scale(1.1);
   }
   50% { 
     opacity: 0.6;
-    transform: scale(0.95);
+    transform: translate3d(0, 0, 0) scale(0.95);
   }
 }
 
 .animate-glow-delayed {
   animation: pulseGlowDelayed 12s ease-in-out infinite;
+  will-change: transform, opacity;
 }

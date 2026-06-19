@@ -27,6 +27,15 @@ export default function Home() {
     }, 100);
     return () => clearInterval(interval);
   }, []);
+  
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
+  
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      setIsKeyboardVisible(latest < 0.85);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
   return (
     <div ref={containerRef} className="w-full h-full flex flex-col items-start justify-center relative min-h-[90vh]">
@@ -44,7 +53,7 @@ export default function Home() {
           className="w-[100vw] h-[100vh] mt-20 opacity-60 md:opacity-100"
           style={{ scale: keyboardScale }}
         >
-          <ThreeKeyboard />
+          {isKeyboardVisible && <ThreeKeyboard />}
         </motion.div>
       </motion.div>
 

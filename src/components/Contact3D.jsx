@@ -2,6 +2,7 @@ import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { PresentationControls, Float, PerspectiveCamera, Environment, ContactShadows, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import LazyCanvas from './LazyCanvas';
 
 function TelephoneModel({ position = [0, 0, 0] }) {
   const group = useRef();
@@ -136,21 +137,23 @@ function SmartphoneModel({ position = [0, 0, 0] }) {
 export function TelephoneView() {
   return (
     <div className="w-full h-[400px] cursor-grab active:cursor-grabbing">
-      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
-        <ambientLight intensity={0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, 5, -5]} intensity={1} color="#D4AF37" />
-        <Environment preset="night" />
-        <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
-          <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
-            <Suspense fallback={null}>
-              <TelephoneModel position={[0, 0, 0]} />
-            </Suspense>
-          </Float>
-        </PresentationControls>
-        <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={10} blur={3} far={5} />
-      </Canvas>
+      <LazyCanvas>
+        <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+          <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
+          <ambientLight intensity={0.2} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+          <pointLight position={[-10, 5, -5]} intensity={1} color="#D4AF37" />
+          <Environment preset="night" />
+          <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
+            <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
+              <Suspense fallback={null}>
+                <TelephoneModel position={[0, 0, 0]} />
+              </Suspense>
+            </Float>
+          </PresentationControls>
+          <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={10} blur={3} far={5} />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }
@@ -158,21 +161,23 @@ export function TelephoneView() {
 export function SmartphoneView() {
   return (
     <div className="w-full h-[400px] cursor-grab active:cursor-grabbing">
-      <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
-        <ambientLight intensity={0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[10, -5, -5]} intensity={1} color="#C5A021" />
-        <Environment preset="night" />
-        <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
-          <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
-            <Suspense fallback={null}>
-              <SmartphoneModel position={[0, 0, 0]} />
-            </Suspense>
-          </Float>
-        </PresentationControls>
-        <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={10} blur={3} far={5} />
-      </Canvas>
+      <LazyCanvas>
+        <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+          <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
+          <ambientLight intensity={0.2} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+          <pointLight position={[10, -5, -5]} intensity={1} color="#C5A021" />
+          <Environment preset="night" />
+          <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
+            <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
+              <Suspense fallback={null}>
+                <SmartphoneModel position={[0, 0, 0]} />
+              </Suspense>
+            </Float>
+          </PresentationControls>
+          <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={10} blur={3} far={5} />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, ContactShadows, Text } from '@react-three/drei';
 import * as THREE from 'three';
+import LazyCanvas from './LazyCanvas';
 
 const KEY_SIZE = 0.4;
 const KEY_GAP = 0.05;
@@ -51,6 +52,10 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
   
   const phase = useMemo(() => Math.random() * Math.PI * 2, []);
   
+  // Cache color objects to prevent garbage collection thrashing inside useFrame
+  const activeColorObj = useMemo(() => new THREE.Color(activeColor), [activeColor]);
+  const blackColorObj = useMemo(() => new THREE.Color('#000000'), []);
+  
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     const wave = Math.sin(t * 8 + position[0] * 2 + position[2] + phase);
@@ -65,7 +70,7 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
     }
     
     if (glowRef.current && glowRef.current.material) {
-      const targetColor = pressed ? new THREE.Color(activeColor) : new THREE.Color('#000');
+      const targetColor = pressed ? activeColorObj : blackColorObj;
       glowRef.current.material.emissive.lerp(targetColor, 0.2);
       glowRef.current.material.emissiveIntensity = pressed ? 2.5 : 0;
     }
@@ -174,25 +179,27 @@ function FullKeyboard() {
 export default function ThreeKeyboard() {
   return (
     <div className="w-full h-full min-h-[500px] lg:min-h-[600px] relative pointer-events-none flex items-center justify-center translate-x-32 md:translate-x-64 translate-y-24">
-      <Canvas camera={{ position: [-2, 8, 8], fov: 40 }} shadows>
-        <ambientLight intensity={0.5} />
-        <directionalLight 
-          position={[10, 15, 10]} 
-          intensity={1.5} 
-          castShadow 
-          shadow-mapSize-width={1024} 
-          shadow-mapSize-height={1024}
-        />
-        <pointLight position={[-10, 5, -10]} intensity={0.5} color="#D4AF37" />
-        
-        <Float speed={2} rotationIntensity={0.15} floatIntensity={0.3}>
-          <group scale={[1.4, 1.4, 1.4]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[4, 0, 0]}>
-            <FullKeyboard />
-          </group>
-        </Float>
-        
-        <ContactShadows position={[0, -2, 0]} opacity={0.7} scale={40} blur={3.0} far={10} />
-      </Canvas>
+      <LazyCanvas>
+        <Canvas camera={{ position: [-2, 8, 8], fov: 40 }} shadows>
+          <ambientLight intensity={0.5} />
+          <directionalLight 
+            position={[10, 15, 10]} 
+            intensity={1.5} 
+            castShadow 
+            shadow-mapSize-width={1024} 
+            shadow-mapSize-height={1024}
+          />
+          <pointLight position={[-10, 5, -10]} intensity={0.5} color="#D4AF37" />
+          
+          <Float speed={2} rotationIntensity={0.15} floatIntensity={0.3}>
+            <group scale={[1.4, 1.4, 1.4]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[4, 0, 0]}>
+              <FullKeyboard />
+            </group>
+          </Float>
+          
+          <ContactShadows position={[0, -2, 0]} opacity={0.7} scale={40} blur={3.0} far={10} />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useRef, useMemo, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { PresentationControls, Environment, Float, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
+import LazyCanvas from './LazyCanvas';
 
 function HighEndTrophy() {
   const trophyRef = useRef();
@@ -127,57 +128,59 @@ function HighEndTrophy() {
 export default function ThreeTrophy() {
   return (
     <div className="w-full h-full relative group">
-      <Canvas 
-        camera={{ position: [0, 1, 8.5], fov: 35 }}
-        shadows
-        gl={{ 
-            antialias: true, 
-            alpha: true,
-            powerPreference: "high-performance",
-            toneMapping: THREE.ACESFilmicToneMapping 
-        }}
-        onCreated={({ gl }) => {
-          gl.setClearAlpha(0); // Ensure complete transparency
-        }}
-      >
-        {/* Studio Lighting Rig */}
-        <ambientLight intensity={0.5} />
-        <spotLight 
-          position={[15, 20, 15]} 
-          angle={0.25} 
-          penumbra={1} 
-          intensity={4} 
-          castShadow 
-          shadow-mapSize={2048}
-        />
-        <directionalLight position={[-10, 10, 5]} intensity={1.5} color="#bc13fe" />
-        <directionalLight position={[10, -5, 5]} intensity={1.5} color="#00f0ff" />
-        
-        <Environment preset="studio" />
-
-        <PresentationControls
-          global
-          rotation={[0.1, 0, 0]}
-          polar={[-0.2, 0.3]}
-          azimuth={[-Math.PI / 2, Math.PI / 2]}
-          config={{ mass: 4, tension: 400 }}
-          snap={{ mass: 2, tension: 150 }}
+      <LazyCanvas>
+        <Canvas 
+          camera={{ position: [0, 1, 8.5], fov: 35 }}
+          shadows
+          gl={{ 
+              antialias: true, 
+              alpha: true,
+              powerPreference: "high-performance",
+              toneMapping: THREE.ACESFilmicToneMapping 
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearAlpha(0); // Ensure complete transparency
+          }}
         >
-          <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
-            <Suspense fallback={null}>
-              <HighEndTrophy />
-            </Suspense>
-          </Float>
-        </PresentationControls>
+          {/* Studio Lighting Rig */}
+          <ambientLight intensity={0.5} />
+          <spotLight 
+            position={[15, 20, 15]} 
+            angle={0.25} 
+            penumbra={1} 
+            intensity={4} 
+            castShadow 
+            shadow-mapSize={2048}
+          />
+          <directionalLight position={[-10, 10, 5]} intensity={1.5} color="#bc13fe" />
+          <directionalLight position={[10, -5, 5]} intensity={1.5} color="#00f0ff" />
+          
+          <Environment preset="studio" />
 
-        <ContactShadows 
-          position={[0, -2.4, 0]} 
-          opacity={0.6} 
-          scale={15} 
-          blur={2.5} 
-          far={10} 
-        />
-      </Canvas>
+          <PresentationControls
+            global
+            rotation={[0.1, 0, 0]}
+            polar={[-0.2, 0.3]}
+            azimuth={[-Math.PI / 2, Math.PI / 2]}
+            config={{ mass: 4, tension: 400 }}
+            snap={{ mass: 2, tension: 150 }}
+          >
+            <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
+              <Suspense fallback={null}>
+                <HighEndTrophy />
+              </Suspense>
+            </Float>
+          </PresentationControls>
+
+          <ContactShadows 
+            position={[0, -2.4, 0]} 
+            opacity={0.6} 
+            scale={15} 
+            blur={2.5} 
+            far={10} 
+          />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }

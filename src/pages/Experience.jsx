@@ -3,6 +3,7 @@ import ParticleHeader from '../components/ParticleHeader';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, ContactShadows, PresentationControls, Text } from '@react-three/drei';
+import LazyCanvas from '../components/LazyCanvas';
 
 function TypingAvatar() {
   const leftArmRef = useRef();
@@ -528,27 +529,29 @@ export default function Experience() {
           style={{ opacity }}
           className="absolute inset-0 w-full h-full z-0 pointer-events-auto cursor-grab active:cursor-grabbing"
         >
-          <Canvas camera={{ position: [5, 4, 7], fov: 34 }} shadows dpr={[1, 2]}>
-            <ambientLight intensity={0.4} />
-            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-            <directionalLight position={[-5, 5, 5]} intensity={0.8} />
-            
-            <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-              <group position={[0.5, -0.7, 0]} scale={1.25}>
-                <PresentationControls
-                  global
-                  config={{ mass: 1, tension: 200 }}
-                  snap={{ mass: 2, tension: 150 }}
-                  rotation={[0, -Math.PI / 4, 0]}
-                  polar={[-Math.PI / 10, Math.PI / 10]}
-                  azimuth={[-Math.PI / 4, Math.PI / 4]}
-                >
-                  <TypingAvatar />
-                </PresentationControls>
-              </group>
-            </Float>
-            <ContactShadows position={[0, -1.8, 0]} opacity={0.4} scale={12} blur={2.5} far={4} color="#000" />
-          </Canvas>
+          <LazyCanvas>
+            <Canvas camera={{ position: [5, 4, 7], fov: 34 }} shadows dpr={[1, 2]}>
+              <ambientLight intensity={0.4} />
+              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+              <directionalLight position={[-5, 5, 5]} intensity={0.8} />
+              
+              <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
+                <group position={[0.5, -0.7, 0]} scale={1.25}>
+                  <PresentationControls
+                    global
+                    config={{ mass: 1, tension: 200 }}
+                    snap={{ mass: 2, tension: 150 }}
+                    rotation={[0, -Math.PI / 4, 0]}
+                    polar={[-Math.PI / 10, Math.PI / 10]}
+                    azimuth={[-Math.PI / 4, Math.PI / 4]}
+                  >
+                    <TypingAvatar />
+                  </PresentationControls>
+                </group>
+              </Float>
+              <ContactShadows position={[0, -1.8, 0]} opacity={0.4} scale={12} blur={2.5} far={4} color="#000" />
+            </Canvas>
+          </LazyCanvas>
         </motion.div>
         
         {/* Mobile Header Overlay */}

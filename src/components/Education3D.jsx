@@ -2,6 +2,7 @@ import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, PerspectiveCamera, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
+import LazyCanvas from './LazyCanvas';
 
 function DegreeHat({ position = [0, 0, 0], scale = 1 }) {
   const group = useRef();
@@ -116,18 +117,20 @@ function Protractor({ position = [0, 0, 0] }) {
 export function EducationLeft3D() {
   return (
     <div className="absolute left-[-10%] top-[15%] w-[400px] h-[700px] pointer-events-none hidden xl:block overflow-visible">
-      <Canvas shadows alpha gl={{ antialias: true, alpha: true }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
-        <ambientLight intensity={0.5} />
-        <spotLight position={[5, 10, 5]} intensity={3} castShadow />
-        <pointLight position={[-5, -5, -5]} color="#C5A021" intensity={1} />
-        <Environment preset="night" />
-        <Float speed={1.5} rotationIntensity={0.8} floatIntensity={1.2}>
-          <DegreeHat position={[0, 2.5, 0]} scale={1.5} />
-          <Protractor position={[-1.5, -1.5, 0]} />
-        </Float>
-        <ContactShadows position={[0, -5, 0]} opacity={0.3} scale={15} blur={3} />
-      </Canvas>
+      <LazyCanvas>
+        <Canvas shadows alpha gl={{ antialias: true, alpha: true }}>
+          <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
+          <ambientLight intensity={0.5} />
+          <spotLight position={[5, 10, 5]} intensity={3} castShadow />
+          <pointLight position={[-5, -5, -5]} color="#C5A021" intensity={1} />
+          <Environment preset="night" />
+          <Float speed={1.5} rotationIntensity={0.8} floatIntensity={1.2}>
+            <DegreeHat position={[0, 2.5, 0]} scale={1.5} />
+            <Protractor position={[-1.5, -1.5, 0]} />
+          </Float>
+          <ContactShadows position={[0, -5, 0]} opacity={0.3} scale={15} blur={3} />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }
@@ -135,18 +138,20 @@ export function EducationLeft3D() {
 export function EducationRight3D() {
   return (
     <div className="absolute right-[-10%] top-[15%] w-[400px] h-[700px] pointer-events-none hidden xl:block overflow-visible">
-      <Canvas shadows alpha gl={{ antialias: true, alpha: true }}>
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
-        <ambientLight intensity={0.5} />
-        <spotLight position={[-5, 10, 5]} intensity={3} castShadow />
-        <pointLight position={[5, -5, -5]} color="#D4AF37" intensity={1} />
-        <Environment preset="night" />
-        <Float speed={2} rotationIntensity={1} floatIntensity={1.5}>
-          <Compass position={[0, 1.5, 0]} />
-          <Ruler position={[1.5, -2, 0]} rotation={[0, 0, -Math.PI / 4]} />
-        </Float>
-        <ContactShadows position={[0, -5, 0]} opacity={0.3} scale={15} blur={3} />
-      </Canvas>
+      <LazyCanvas>
+        <Canvas shadows alpha gl={{ antialias: true, alpha: true }}>
+          <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
+          <ambientLight intensity={0.5} />
+          <spotLight position={[-5, 10, 5]} intensity={3} castShadow />
+          <pointLight position={[5, -5, -5]} color="#D4AF37" intensity={1} />
+          <Environment preset="night" />
+          <Float speed={2} rotationIntensity={1} floatIntensity={1.5}>
+            <Compass position={[0, 1.5, 0]} />
+            <Ruler position={[1.5, -2, 0]} rotation={[0, 0, -Math.PI / 4]} />
+          </Float>
+          <ContactShadows position={[0, -5, 0]} opacity={0.3} scale={15} blur={3} />
+        </Canvas>
+      </LazyCanvas>
     </div>
   );
 }

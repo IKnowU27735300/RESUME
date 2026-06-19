@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import ParticleHeader from '../components/ParticleHeader';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Send, Github, Linkedin, Smartphone, Phone } from 'lucide-react';
-import { TelephoneView, SmartphoneView } from '../components/Contact3D';
+import { SmartphoneView } from '../components/Contact3D';
 
 export default function Contact() {
   const [userEmail, setUserEmail] = useState('');
@@ -43,22 +43,6 @@ export default function Contact() {
       </div>
 
       <div className="w-full max-w-7xl flex flex-col xl:flex-row items-center justify-center gap-12 lg:gap-20">
-        
-        {/* Left Side Model: Telephone (Hidden on small mobile to focus on form) */}
-        <motion.div 
-          style={{ opacity: modelOpacity }}
-          className="hidden md:flex xl:w-1/4 flex-col items-center order-2 xl:order-1"
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="w-64 h-64 lg:w-80 lg:h-80">
-            <TelephoneView />
-          </div>
-          <div className="flex items-center gap-2 text-gray-500 font-mono text-[10px] uppercase tracking-widest mt-4">
-            <Phone className="w-3 h-3 text-accentSecondary" /> +91 8762352662
-          </div>
-        </motion.div>
 
         {/* Center: Contact Form */}
         <div className="w-full max-w-xl xl:w-2/4 order-1 xl:order-2">
@@ -68,10 +52,14 @@ export default function Contact() {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-base md:text-lg text-gray-300 font-sans mb-10 text-center leading-relaxed">
+            <p className="text-base md:text-lg text-gray-300 font-sans mb-6 text-center leading-relaxed">
               I'm always open to discussing <span className="text-white font-bold underline decoration-accentPrimary/50">AI solutions</span>, 
               full-stack development, or creative partnerships.
             </p>
+            <div className="flex items-center gap-2 text-gray-400 font-mono text-xs uppercase tracking-widest mb-10">
+              <Phone className="w-4 h-4 text-accentSecondary" />
+              <a href="tel:+918762352662" className="hover:text-accentSecondary transition-colors">+91 8762352662</a>
+            </div>
 
             <form onSubmit={handleSendMail} className="w-full flex flex-col gap-6">
               <div className="group space-y-2">
