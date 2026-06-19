@@ -33,8 +33,7 @@ function HighEndTrophy() {
     return pts;
   }, []);
 
-  // 2. Precise Handle Curves (Mathematically attached to the hull)
-  // Attached at y=0.8 (inner) and y=1.9 (outer)
+  // 2. Precise Handle Curves
   const handleCurve = useMemo(() => {
     return new THREE.CatmullRomCurve3([
       new THREE.Vector3(0.55, 0.6, 0),    // Lower attachment point
@@ -44,19 +43,17 @@ function HighEndTrophy() {
     ]);
   }, []);
 
-  const goldMaterial = (
+  const violetMaterial = (
     <meshPhysicalMaterial
-      color="#f7c000"
-      metalness={1.0}
-      roughness={0.12}
+      color="#8052ff"
+      metalness={0.9}
+      roughness={0.15}
       reflectivity={1.0}
       clearcoat={1.0}
       clearcoatRoughness={0.05}
-      iridescence={0.3}
-      iridescenceIOR={1.5}
       sheen={1}
       sheenRoughness={0.5}
-      sheenColor="#ffffff"
+      sheenColor="#8052ff"
     />
   );
 
@@ -65,18 +62,18 @@ function HighEndTrophy() {
       {/* The Cup Body */}
       <mesh castShadow receiveShadow>
         <latheGeometry args={[cupProfile, 64]} />
-        {goldMaterial}
+        {violetMaterial}
       </mesh>
 
       {/* Synchronized Handles */}
       <group>
         <mesh castShadow>
           <tubeGeometry args={[handleCurve, 64, 0.08, 16, false]} />
-          {goldMaterial}
+          {violetMaterial}
         </mesh>
         <mesh rotation={[0, Math.PI, 0]} castShadow>
           <tubeGeometry args={[handleCurve, 64, 0.08, 16, false]} />
-          {goldMaterial}
+          {violetMaterial}
         </mesh>
       </group>
 
@@ -84,9 +81,9 @@ function HighEndTrophy() {
       <mesh position={[0, 2.6, 0]} castShadow>
         <sphereGeometry args={[0.25, 32, 32]} />
         <meshStandardMaterial 
-          color="#00f0ff" 
-          emissive="#00f0ff" 
-          emissiveIntensity={4} 
+          color="#ffb829" 
+          emissive="#ffb829" 
+          emissiveIntensity={3} 
           toneMapped={false}
         />
       </mesh>
@@ -104,10 +101,10 @@ function HighEndTrophy() {
           <boxGeometry args={[2.5, 0.6, 2.5]} />
           <meshStandardMaterial color="#050505" roughness={0.05} metalness={0.9} />
         </mesh>
-        {/* Polished Gold Cap */}
+        {/* Polished Cap */}
         <mesh position={[0, 0.35, 0]}>
           <boxGeometry args={[2.2, 0.1, 2.2]} />
-          {goldMaterial}
+          {violetMaterial}
         </mesh>
         {/* Ornate Base Pedestal */}
         <mesh position={[0, -0.5, 0]}>
@@ -115,7 +112,7 @@ function HighEndTrophy() {
           <meshStandardMaterial color="#0a0a0a" roughness={0.8} />
         </mesh>
         {/* Engagement Light */}
-        <pointLight position={[0, 1.5, 1.5]} intensity={1.5} color="#ffd700" distance={5} />
+        <pointLight position={[0, 1.5, 1.5]} intensity={1.5} color="#8052ff" distance={5} />
       </group>
 
       {/* Global Highlight Light */}
@@ -137,10 +134,9 @@ export default function ThreeTrophy() {
             toneMapping: THREE.ACESFilmicToneMapping 
         }}
         onCreated={({ gl }) => {
-          gl.setClearAlpha(0); // Ensure complete transparency
+          gl.setClearAlpha(0);
         }}
       >
-        {/* Studio Lighting Rig */}
         <ambientLight intensity={0.5} />
         <spotLight 
           position={[15, 20, 15]} 
@@ -150,8 +146,8 @@ export default function ThreeTrophy() {
           castShadow 
           shadow-mapSize={2048}
         />
-        <directionalLight position={[-10, 10, 5]} intensity={1.5} color="#bc13fe" />
-        <directionalLight position={[10, -5, 5]} intensity={1.5} color="#00f0ff" />
+        <directionalLight position={[-10, 10, 5]} intensity={1.5} color="#8052ff" />
+        <directionalLight position={[10, -5, 5]} intensity={1.5} color="#ffb829" />
         
         <Environment preset="studio" />
 
@@ -181,5 +177,3 @@ export default function ThreeTrophy() {
     </div>
   );
 }
-
-

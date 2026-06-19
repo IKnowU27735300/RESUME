@@ -59,7 +59,7 @@ function TelephoneModel({ position = [0, 0, 0] }) {
       {/* Futuristic glowing dial */}
       <mesh ref={dialRef} position={[0, 0.15, 0.8]} rotation={[-Math.PI / 3.5, 0, 0]} castShadow>
         <cylinderGeometry args={[0.6, 0.6, 0.1, 32]} />
-        <meshStandardMaterial color="#000" emissive="#D4AF37" emissiveIntensity={0.5} />
+        <meshStandardMaterial color="#000" emissive="#8052ff" emissiveIntensity={0.5} />
       </mesh>
       
       {/* Center point of dial */}
@@ -68,7 +68,7 @@ function TelephoneModel({ position = [0, 0, 0] }) {
         <meshStandardMaterial color="#333" />
       </mesh>
 
-      <pointLight position={[0, 3, 2]} intensity={1.5} color="#D4AF37" distance={10} />
+      <pointLight position={[0, 3, 2]} intensity={1.5} color="#8052ff" distance={10} />
     </group>
   );
 }
@@ -107,8 +107,8 @@ function SmartphoneModel({ position = [0, 0, 0] }) {
       <mesh position={[0, 0, 0.05]}>
         <planeGeometry args={[1.42, 3.12]} />
         <meshStandardMaterial 
-          color="#D4AF37" 
-          emissive="#D4AF37" 
+          color="#8052ff" 
+          emissive="#8052ff" 
           emissiveIntensity={0.2}
           transparent={true}
           opacity={0.3}
@@ -122,7 +122,7 @@ function SmartphoneModel({ position = [0, 0, 0] }) {
       </mesh>
 
       {/* Dynamic light from screen */}
-      <pointLight position={[0, 0, 0.6]} intensity={1} color="#C5A021" distance={5} />
+      <pointLight position={[0, 0, 0.6]} intensity={1} color="#8052ff" distance={5} />
       
       {/* Front sensors */}
       <mesh position={[0, 1.45, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
@@ -140,7 +140,7 @@ export function TelephoneView() {
         <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
         <ambientLight intensity={0.2} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, 5, -5]} intensity={1} color="#D4AF37" />
+        <pointLight position={[-10, 5, -5]} intensity={1} color="#8052ff" />
         <Environment preset="night" />
         <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
           <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
@@ -162,7 +162,7 @@ export function SmartphoneView() {
         <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={35} />
         <ambientLight intensity={0.2} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[10, -5, -5]} intensity={1} color="#C5A021" />
+        <pointLight position={[10, -5, -5]} intensity={1} color="#8052ff" />
         <Environment preset="night" />
         <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
           <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>
@@ -180,13 +180,12 @@ export function SmartphoneView() {
 export default function Contact3D() {
   return (
     <div className="w-full h-[450px] cursor-grab active:cursor-grabbing">
-      {/* Default combined view if needed, but we'll use TelephoneView and SmartphoneView in Contact.jsx */}
       <Canvas shadows dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
         <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
         <ambientLight intensity={0.2} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, 5, -5]} intensity={1} color="#D4AF37" />
-        <pointLight position={[10, -5, -5]} intensity={1} color="#C5A021" />
+        <pointLight position={[-10, 5, -5]} intensity={1} color="#8052ff" />
+        <pointLight position={[10, -5, -5]} intensity={1} color="#ffb829" />
         <Environment preset="night" />
         <PresentationControls global rotation={[0.1, 0, 0]} polar={[-0.3, 0.3]} azimuth={[-Math.PI / 6, Math.PI / 6]} config={{ mass: 4, tension: 400 }} snap={{ mass: 2, tension: 150 }}>
           <Float speed={3} rotationIntensity={0.4} floatIntensity={0.6}>

@@ -12,11 +12,11 @@ import PythonBasics from '../../Certificates/python basics HACKERRANK.png';
 import ProblemSolving from '../../Certificates/problem solving HACKERRANK.png';
 
 const certs = [
-  { name: 'Google AI Essentials', issuer: 'Google', icon: Award, color: '#D4AF37', img: AIEssentials },
-  { name: 'Foundations of Cybersecurity', issuer: 'Google', icon: ShieldCheck, color: '#C5A021', img: Foundations },
-  { name: 'Mysore Hackathon', issuer: 'Hackathon Participant', icon: Trophy, color: '#E6BE8A', img: Mysore },
-  { name: 'Python Basics', issuer: 'Certification', icon: FileCode, color: '#8B7226', img: PythonBasics },
-  { name: 'Problem Solving (Basic)', issuer: 'HackerRank', icon: Lightbulb, color: '#D4AF37', img: ProblemSolving }
+  { name: 'Google AI Essentials', issuer: 'Google', icon: Award, color: '#8052ff', img: AIEssentials },
+  { name: 'Foundations of Cybersecurity', issuer: 'Google', icon: ShieldCheck, color: '#ffb829', img: Foundations },
+  { name: 'Mysore Hackathon', issuer: 'Hackathon Participant', icon: Trophy, color: '#15846e', img: Mysore },
+  { name: 'Python Basics', issuer: 'Certification', icon: FileCode, color: '#9a9a9a', img: PythonBasics },
+  { name: 'Problem Solving (Basic)', issuer: 'HackerRank', icon: Lightbulb, color: '#8052ff', img: ProblemSolving }
 ];
 
 export default function Achievements() {
@@ -39,21 +39,21 @@ export default function Achievements() {
               href={c.img}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass p-6 md:p-8 rounded-[2rem] flex items-center gap-5 group transition-all duration-500 border border-white/5 hover:bg-white/5"
-              whileHover={{ y: -8, scale: 1.02 }}
+              className="border border-neutral-800 hover:border-accentPrimary bg-transparent p-6 md:p-8 rounded-2xl flex items-center gap-5 group transition-all duration-500 shadow-none"
+              whileHover={{ y: -8, scale: 1.01 }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
             >
               <div 
-                className="w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-2xl group-hover:rotate-12"
-                style={{ backgroundColor: `${c.color}15`, color: c.color }}
+                className="w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:rotate-12 border border-neutral-800"
+                style={{ color: c.color }}
               >
                 <c.icon className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                 <h4 className="font-display font-bold text-lg md:text-xl text-white group-hover:text-accentPrimary transition-colors line-clamp-1">
+                 <h4 className="font-display font-light text-lg md:text-xl text-white group-hover:text-accentPrimary transition-colors line-clamp-1">
                    {c.name}
                  </h4>
                  <p className="text-gray-500 text-xs md:text-sm font-sans font-medium uppercase tracking-wider">{c.issuer}</p>
@@ -65,16 +65,16 @@ export default function Achievements() {
         {/* Right: 3D Trophy Showcase */}
         <div className="flex-1 w-full flex flex-col items-center">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="w-full glass rounded-[2.5rem] p-8 md:p-10 flex flex-col items-center border border-accentPrimary/40 shadow-[0_0_50px_rgba(212,175,55,0.2)] relative overflow-hidden"
+            className="w-full border border-neutral-800 rounded-2xl p-8 md:p-10 flex flex-col items-center relative overflow-hidden shadow-none"
           >
             <div className="absolute top-0 right-0 p-4 opacity-20">
                <Trophy className="w-12 h-12 text-accentPrimary" />
             </div>
             
-            <h3 className="text-2xl font-display font-black mb-1 text-white tracking-tight uppercase">Excellence</h3>
-            <p className="text-[10px] text-accentPrimary font-black mb-8 uppercase tracking-[0.2em] opacity-60 italic">Rotate to Inspect</p>
+            <h3 className="text-2xl font-display font-light mb-1 text-white tracking-tight uppercase">Excellence</h3>
+            <p className="text-[10px] text-accentPrimary font-bold mb-8 uppercase tracking-[0.2em] opacity-60 italic">Rotate to Inspect</p>
             
             <div className="w-full aspect-square md:h-[350px]">
               <ThreeTrophy />
@@ -86,7 +86,7 @@ export default function Achievements() {
               href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-10 py-5 bg-white text-black rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-accentPrimary hover:scale-105 transition-all shadow-2xl active:scale-95 group"
+              className="flex items-center gap-3 px-10 py-5 border border-white hover:border-accentPrimary hover:text-accentPrimary bg-transparent text-white rounded-xl font-mono text-sm uppercase tracking-widest transition-all active:scale-95 group"
             >
               View All Certificates 
               <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

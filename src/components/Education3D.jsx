@@ -30,11 +30,11 @@ function DegreeHat({ position = [0, 0, 0], scale = 1 }) {
       <group position={[0.9, 0.4, 0.9]}>
         <mesh position={[0, -0.4, 0]} castShadow>
           <cylinderGeometry args={[0.02, 0.02, 0.8, 8]} />
-          <meshStandardMaterial color="#D4AF37" />
+          <meshStandardMaterial color="#8052ff" />
         </mesh>
         <mesh position={[0, -0.8, 0]} castShadow>
           <sphereGeometry args={[0.1, 16, 16]} />
-          <meshStandardMaterial color="#D4AF37" emissive="#D4AF37" emissiveIntensity={0.5} />
+          <meshStandardMaterial color="#8052ff" emissive="#8052ff" emissiveIntensity={0.5} />
         </mesh>
       </group>
     </group>
@@ -53,8 +53,7 @@ function Ruler({ position = [0, 0, 0], rotation = [0, 0, 0] }) {
   return (
     <mesh ref={ref} position={position} rotation={rotation} castShadow>
       <boxGeometry args={[0.3, 3, 0.05]} />
-      <meshStandardMaterial color="#333" metalness={0.9} roughness={0.1} emissive="#D4AF37" emissiveIntensity={0.1} />
-      {/* Markings could be added as a texture or more geometry, but keeping it sleek */}
+      <meshStandardMaterial color="#333" metalness={0.9} roughness={0.1} emissive="#8052ff" emissiveIntensity={0.1} />
     </mesh>
   );
 }
@@ -102,7 +101,7 @@ function Protractor({ position = [0, 0, 0] }) {
       {/* Semi-circle ring */}
       <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
         <torusGeometry args={[0.8, 0.05, 16, 32, Math.PI]} />
-        <meshStandardMaterial color="#D4AF37" emissive="#D4AF37" emissiveIntensity={0.5} transparent opacity={0.6} />
+        <meshStandardMaterial color="#8052ff" emissive="#8052ff" emissiveIntensity={0.5} transparent opacity={0.6} />
       </mesh>
       {/* Straight edge */}
       <mesh position={[0, -0.02, 0]} castShadow>
@@ -120,7 +119,7 @@ export function EducationLeft3D() {
         <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
         <ambientLight intensity={0.5} />
         <spotLight position={[5, 10, 5]} intensity={3} castShadow />
-        <pointLight position={[-5, -5, -5]} color="#C5A021" intensity={1} />
+        <pointLight position={[-5, -5, -5]} color="#8052ff" intensity={1} />
         <Environment preset="night" />
         <Float speed={1.5} rotationIntensity={0.8} floatIntensity={1.2}>
           <DegreeHat position={[0, 2.5, 0]} scale={1.5} />
@@ -139,7 +138,7 @@ export function EducationRight3D() {
         <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={35} />
         <ambientLight intensity={0.5} />
         <spotLight position={[-5, 10, 5]} intensity={3} castShadow />
-        <pointLight position={[5, -5, -5]} color="#D4AF37" intensity={1} />
+        <pointLight position={[5, -5, -5]} color="#8052ff" intensity={1} />
         <Environment preset="night" />
         <Float speed={2} rotationIntensity={1} floatIntensity={1.5}>
           <Compass position={[0, 1.5, 0]} />

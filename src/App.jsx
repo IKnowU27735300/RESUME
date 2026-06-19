@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 // We will import our Page components here next
 import GlobalNav from './components/GlobalNav';
 import Home from './pages/Home';
+import About from './pages/About';
 import Experience from './pages/Experience';
 import Education from './pages/Education';
 import Skills from './pages/Skills';
@@ -11,8 +12,11 @@ import Projects from './pages/Projects';
 import Achievements from './pages/Achievements';
 import Contact from './pages/Contact';
 import LoadingPage from './components/LoadingPage';
+import CursorEffects from './components/CursorEffects';
+import { OrbBackground } from './components/EnhancedBackground';
+import { ScrollProgressIndicator, SectionScrollIndicator } from './components/ScrollAnimations';
 
-const pages = ['Home', 'Experience', 'Education', 'Skills', 'Projects', 'Achievements', 'Contact'];
+const pages = ['Home', 'About', 'Experience', 'Education', 'Skills', 'Projects', 'Achievements', 'Contact'];
 
 function App() {
   const [activePage, setActivePage] = useState('Home');
@@ -51,7 +55,16 @@ function App() {
   }, [loading]);
 
   return (
-    <div className="min-h-screen relative w-full bg-[#050505] scroll-smooth selection:bg-accentPrimary/30">
+    <div className="min-h-screen relative w-full bg-[#000000] scroll-smooth selection:bg-accentPrimary/30 overflow-x-hidden">
+      {/* Enhanced Background */}
+      <OrbBackground />
+
+      {/* Scroll Progress Indicator */}
+      <ScrollProgressIndicator />
+
+      {/* Section Scroll Indicator */}
+      <SectionScrollIndicator sections={pages} />
+
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -66,16 +79,18 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Background fixed graphic with increased intensity and pulsed breathing effect */}
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accentSecondary/20 via-accentSecondary/5 via-50% to-transparent to-90% opacity-50 animate-glow"></div>
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accentPrimary/20 via-accentPrimary/5 via-50% to-transparent to-90% opacity-30 animate-glow-delayed"></div>
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_50%,_var(--tw-gradient-stops))] from-accentTertiary/10 via-transparent to-transparent opacity-40 animate-glow"></div>
+      {/* Cursor Effects Overlay */}
+      <CursorEffects />
 
       <GlobalNav activePage={activePage} setActivePage={setActivePage} />
 
       <main className="w-full relative z-10 mx-auto overflow-x-hidden">
         <section id="Home" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center">
            <Home />
+        </section>
+
+        <section id="About" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+           <About />
         </section>
 
         <section id="Experience" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">

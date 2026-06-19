@@ -44,9 +44,9 @@ function TypingAvatar() {
     }
   });
 
-  // Black and Gold Materials
+  // Black and Violet Materials
   const pitchBlackMat = { color: "#000000", roughness: 0.8, metalness: 0.5 };
-  const goldMat = { color: "#D4AF37", roughness: 0.3, metalness: 0.8 };
+  const goldMat = { color: "#8052ff", roughness: 0.3, metalness: 0.8 }; // Rename variable or keep same identifier but change color to violet
   
   const skinMat = {...pitchBlackMat};
   const shirtMat = {...pitchBlackMat};
@@ -55,8 +55,8 @@ function TypingAvatar() {
   
   const deskBodyMat = { color: "#050505", roughness: 0.4, metalness: 0.6 };
   const monitorMat = { color: "#111111", roughness: 0.1, metalness: 0.9 };
-  const screenGold = "#FFCC00";
-  const eyeGold = "#FFAA00";
+  const screenGold = "#8052ff";
+  const eyeGold = "#8052ff";
   
   const renderEye = (isRight) => {
     const flip = isRight ? 1 : -1;
@@ -429,7 +429,7 @@ const expData = [
     company: "TAP Academy",
     date: "Feb 2026 - Present",
     desc: "Working on advanced projects and gaining full-stack exposure.",
-    color: "#D4AF37",
+    color: "#8052ff",
     rotation: -2,
   },
   {
@@ -437,7 +437,7 @@ const expData = [
     company: "Angadi Institute of Technology and Management",
     date: "Sep 2025 - Feb 2026",
     desc: "Led academic and co-curricular initiatives bridging classroom learning with industry readiness.",
-    color: "#C5A021",
+    color: "#ffb829",
     rotation: 2,
   },
   {
@@ -445,7 +445,7 @@ const expData = [
     company: "ACM Student Chapter",
     date: "Apr 2023 - May 2024",
     desc: "Enhanced student engagement and event visibility leveraging leadership, organizational, and marketing skills.",
-    color: "#E6BE8A",
+    color: "#15846e",
     rotation: -1,
   }
 ];
@@ -481,39 +481,32 @@ export default function Experience() {
             return (
               <motion.div
                 key={idx}
-                whileHover={{ scale: 1.02, x: 10 }}
+                whileHover={{ scale: 1.01, x: 10 }}
                 onHoverStart={() => setHoveredIdx(idx)}
                 onHoverEnd={() => setHoveredIdx(null)}
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass p-8 md:p-10 rounded-[2.5rem] w-full relative group border border-white/10 bg-black/40 backdrop-blur-2xl overflow-hidden transition-all duration-500 shadow-2xl"
+                className="border border-neutral-800 hover:border-accentPrimary bg-transparent p-8 md:p-10 rounded-2xl w-full relative group overflow-hidden transition-all duration-500 shadow-none"
               >
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
-                  style={{ backgroundColor: exp.color }}
-                />
-                
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
-                  <div className="text-[11px] font-display font-black px-4 py-1.5 rounded-full bg-white/5 text-gray-300 border border-white/10 w-fit uppercase tracking-wider backdrop-blur-md">
+                  <div className="text-[11px] font-mono px-4 py-1.5 rounded-full border border-neutral-800 text-gray-300 w-fit uppercase tracking-wider">
                     {exp.date}
                   </div>
                   <div className="flex gap-1.5">
                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: exp.color }} />
-                     <div className="w-2 h-2 rounded-full opacity-40 shadow-[0_0_8px_inset]" style={{ backgroundColor: exp.color }} />
-                     <div className="w-2 h-2 rounded-full opacity-20 shadow-[0_0_12px_inset]" style={{ backgroundColor: exp.color }} />
                   </div>
                 </div>
 
-                <h3 className="text-xl md:text-2xl font-decorative font-bold mb-3 group-hover:translate-x-1 transition-transform tracking-wider leading-tight" style={{ color: isHovered ? exp.color : '#fff' }}>
+                <h3 className="text-xl md:text-2xl font-sans font-light mb-3 group-hover:translate-x-1 transition-transform tracking-wide leading-tight" style={{ color: isHovered ? '#8052ff' : '#fff' }}>
                   {exp.role}
                 </h3>
-                <h4 className="text-lg md:text-xl text-gray-200 font-display font-bold mb-6 flex items-center gap-3">
-                  <span className="w-6 h-[1.5px] bg-gradient-to-r from-white/30 to-transparent rounded-full" />
+                <h4 className="text-lg md:text-xl text-gray-400 font-sans font-light mb-6 flex items-center gap-3">
+                  <span className="w-6 h-[1px] bg-neutral-800 rounded-full" />
                   {exp.company}
                 </h4>
-                <p className="text-gray-400 group-hover:text-gray-100 leading-relaxed font-display font-medium transition-colors text-sm md:text-base md:pr-4">
+                <p className="text-gray-400 group-hover:text-gray-100 leading-relaxed font-sans transition-colors text-sm md:text-base md:pr-4">
                   {exp.desc}
                 </p>
               </motion.div>

@@ -1,195 +1,259 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ParticleHeader from '../components/ParticleHeader';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Text } from '@react-three/drei';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
-// Simplified skillsData – motion parameters will be calculated via index
-const skillsData = [
-  { name: 'Java', color: '#D4AF37' },
-  { name: 'AI/ML', color: '#C5A021' },
-  { name: 'Gen AI', color: '#E6BE8A' },
-  { name: 'MongoDB', color: '#D4AF37' },
-  { name: 'Tailwind', color: '#C5A021' },
-  { name: 'Python', color: '#E6BE8A' },
-  { name: 'React', color: '#D4AF37' },
-  { name: 'Next.js', color: '#C5A021' },
-  { name: 'Cyber Security', color: '#E6BE8A' },
-];
+const clusters = {
+  frontend: {
+    title: 'Frontend Cluster',
+    skills: ['React', 'Next.js', 'Tailwind', 'JavaScript'],
+    pos: [-4.2, 0, 0]
+  },
+  backend: {
+    title: 'Backend Cluster',
+    skills: ['Node.js', 'Python', 'Java', 'MySQL'],
+    pos: [0, 0, 0]
+  },
+  ai_security: {
+    title: 'AI & Security Cluster',
+    skills: ['ML/AI', 'Gen AI', 'Cybersecurity', 'Net Security'],
+    pos: [4.2, 0, 0]
+  }
+};
 
-const staticSkillsData = [
-  // Left Anchor Cluster (Data Visualization)
-  { name: 'Power BI', color: '#f2c811', pos: [-23, 6, 2] },
-  { name: 'Tableau', color: '#e97627', pos: [-23, -2, 2] },
-  
-  // Right Anchor Cluster (Cloud & Workflow)
-  { name: 'GitHub', color: '#ffffff', pos: [23, 6, 2] },
-  { name: 'Firebase', color: '#ffca28', pos: [23, -2, 2] },
-];
-
-function MechanicalSkillKey({ name, color, index, staticPos, isMobile }) {
+function SkillKeycap({ name, gridPos, isClusterHovered, onHover, onUnhover }) {
   const meshRef = useRef();
-  const { viewport } = useThree();
-  
-  const width = Math.max(isMobile ? 2.5 : 3.5, name.length * (isMobile ? 0.45 : 0.6));
-  const depth = isMobile ? 1.5 : 2.5;
-  const height = isMobile ? 0.8 : 1.2;
+  const glowRef = useRef();
+  const [keyHovered, setKeyHovered] = useState(false);
 
-  const [hovered, setHovered] = useState(false);
-
-  // Dynamic orbital physics
-  const baseRadiusX = isMobile ? viewport.width * 0.4 : viewport.width * 0.28;
-  const baseRadiusY = isMobile ? viewport.height * 0.28 : viewport.height * 0.2;
-  
-  const radiusX = baseRadiusX + (index % 3) * (isMobile ? 0.5 : 1.5); 
-  const radiusY = baseRadiusY + (index % 2) * (isMobile ? 0.3 : 1.0); 
-  const angularSpeed = 0.08 + (index * 0.015); 
-  const phaseOffset = index ? (index * (Math.PI * 2)) / 9 : 0; 
+  const keyWidth = 1.6;
+  const keyHeight = 0.5;
+  const keyDepth = 1.0;
 
   useFrame((state) => {
+    const t = state.clock.getElapsedTime();
     if (!meshRef.current) return;
+
+    // Default position in grid
+    const targetX = gridPos[0];
+    const targetZ = gridPos[1];
     
-    if (staticPos) {
-      const t = state.clock.getElapsedTime();
-      const responsivePos = isMobile ? [staticPos[0] * 0.45, staticPos[1] * 0.8, staticPos[2]] : staticPos;
-      meshRef.current.position.set(responsivePos[0], responsivePos[1] + Math.sin(t * 1.5) * 0.4, responsivePos[2]);
-      meshRef.current.rotation.x = Math.PI / 2.2 + Math.sin(t * 0.5) * 0.1;
-    } else {
-      const t = state.clock.getElapsedTime() * angularSpeed + phaseOffset;
-      meshRef.current.position.x = Math.cos(t) * radiusX;
-      meshRef.current.position.y = Math.sin(t) * radiusY;
-      meshRef.current.position.z = Math.sin(t * 0.5) * 1.5;
-      meshRef.current.rotation.x = Math.PI / 2.5 + Math.sin(t * 0.4) * 0.12;
-      meshRef.current.rotation.y = Math.cos(t * 0.2) * 0.1;
+    // Smooth animate height based on hover states
+    let targetY = 0;
+    if (isClusterHovered) {
+      // Float up and down as a wave when cluster is active
+      targetY = 0.35 + Math.sin(t * 5 + gridPos[0] * 2 + gridPos[1]) * 0.12;
+    } else if (keyHovered) {
+      targetY = 0.2;
+    }
+
+    meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, targetY, 0.1);
+    meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.1);
+    meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, targetZ, 0.1);
+
+    // Glow intensity
+    if (glowRef.current && glowRef.current.material) {
+      const activeColor = new THREE.Color('#8052ff'); // Violet
+      const defaultColor = new THREE.Color('#101010');
+      
+      if (isClusterHovered || keyHovered) {
+        glowRef.current.material.emissive.lerp(activeColor, 0.1);
+        glowRef.current.material.emissiveIntensity = 3.0;
+      } else {
+        glowRef.current.material.emissive.lerp(defaultColor, 0.1);
+        glowRef.current.material.emissiveIntensity = 0;
+      }
     }
   });
 
   return (
     <group 
       ref={meshRef}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor='pointer'; }}
-      onPointerOut={(e) => { e.stopPropagation(); setHovered(false); document.body.style.cursor='auto'; }}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        setKeyHovered(true);
+        onHover();
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        setKeyHovered(false);
+        onUnhover();
+      }}
     >
-        <group scale={hovered ? 1.15 : 1}>
-          {/* Key Base - Brighter for visibility */}
-          <mesh position={[0, -height * 0.2, 0]}>
-            <boxGeometry args={[width, height * 0.8, depth]} />
-            <meshStandardMaterial color="#1a1a1a" roughness={0.6} metalness={0.4} />
-          </mesh>
-          
-          {/* Glowing Top Surface */}
-          <mesh position={[0, height * 0.3, 0]}>
-            <boxGeometry args={[width - 0.2, height * 0.2, depth - 0.2]} />
-            <meshStandardMaterial 
-              color="#222" 
-              roughness={0.2} 
-              metalness={0.9} 
-              emissive={hovered ? color : '#000'}
-              emissiveIntensity={hovered ? 1.5 : 0}
-            />
-          </mesh>
-          
-          {/* Bottom Edge Light */}
-          <mesh position={[0, -height * 0.5, 0]}>
-            <boxGeometry args={[width - 0.4, 0.08, depth - 0.4]} />
-            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={hovered ? 6 : 1.2} />
-          </mesh>
+      {/* Matte black Keycap Base */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[keyWidth, keyHeight, keyDepth]} />
+        <meshStandardMaterial color="#141414" roughness={0.6} metalness={0.4} />
+      </mesh>
+      
+      {/* Slightly smaller Keycap Top */}
+      <mesh position={[0, 0.26, 0]}>
+        <boxGeometry args={[keyWidth - 0.15, 0.1, keyDepth - 0.15]} />
+        <meshStandardMaterial color="#1a1a1c" roughness={0.4} metalness={0.5} />
+      </mesh>
 
-          <Text 
-            position={[0, height * 0.45, 0]} 
-            rotation={[-Math.PI / 2, 0, 0]} 
-            fontSize={isMobile ? 0.45 : 0.65} 
-            color={hovered ? '#fff' : '#aaa'}
-            anchorX="center" 
-            anchorY="middle"
-            fontWeight="bold"
-            maxWidth={width - 0.5}
-            textAlign="center"
-          >
-            {name}
-          </Text>
-        </group>
-      </group>
+      {/* Legend text */}
+      <Text
+        position={[0, 0.32, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        fontSize={0.18}
+        color={isClusterHovered || keyHovered ? '#ffffff' : '#bdbdbd'}
+        anchorX="center"
+        anchorY="middle"
+        maxWidth={keyWidth - 0.2}
+      >
+        {name}
+      </Text>
+
+      {/* Emissive LED underneath */}
+      <mesh ref={glowRef} position={[0, -0.22, 0]}>
+        <boxGeometry args={[keyWidth - 0.2, 0.05, keyDepth - 0.2]} />
+        <meshStandardMaterial color="#000" emissive="#000" />
+      </mesh>
+    </group>
   );
 }
 
-function ResponsiveScene({ isMobile }) {
+function SkillCluster3D({ clusterKey, data, hoveredCluster, setHoveredCluster }) {
+  const isHovered = hoveredCluster === clusterKey;
+
+  // Lay out 4 skills in a 2x2 grid around the cluster center
+  const gridPositions = [
+    [-0.95, -0.6], // top-left
+    [0.95, -0.6],  // top-right
+    [-0.95, 0.6],  // bottom-left
+    [0.95, 0.6]   // bottom-right
+  ];
+
   return (
-    <React.Suspense fallback={null}>
-      <ambientLight intensity={1.2} />
-      <spotLight position={[10, 25, 15]} angle={0.2} penumbra={1} intensity={3} castShadow />
-      <directionalLight position={[-10, 10, 5]} intensity={0.8} color="#C5A021" />
-      <pointLight position={[0, 0, 10]} intensity={1} color="#E6BE8A" />
+    <group position={data.pos}>
+      {/* Cluster Plate */}
+      <mesh position={[0, -0.35, 0]}>
+        <boxGeometry args={[3.6, 0.12, 2.4]} />
+        <meshStandardMaterial color="#080808" roughness={0.8} metalness={0.7} />
+      </mesh>
+
+      {/* Cluster Title */}
+      <Text
+        position={[0, 0.8, -1.6]}
+        rotation={[-Math.PI / 7, 0, 0]}
+        fontSize={0.28}
+        color={isHovered ? '#8052ff' : '#ffffff'}
+        anchorX="center"
+        anchorY="middle"
+      >
+        {data.title.toUpperCase()}
+      </Text>
+
+      {data.skills.map((skill, idx) => (
+        <SkillKeycap
+          key={skill}
+          name={skill}
+          gridPos={gridPositions[idx]}
+          isClusterHovered={isHovered}
+          onHover={() => setHoveredCluster(clusterKey)}
+          onUnhover={() => setHoveredCluster(null)}
+        />
+      ))}
+    </group>
+  );
+}
+
+function Scene({ hoveredCluster, setHoveredCluster, isMobile }) {
+  return (
+    <>
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[5, 10, 5]} intensity={2.0} />
       
-      <group position={[0, isMobile ? 1 : 2, 0]}>
-        {skillsData.map((skill, idx) => (
-          <MechanicalSkillKey key={idx} index={idx} name={skill.name} color={skill.color} isMobile={isMobile} />
-        ))}
-        {staticSkillsData.map((skill, idx) => (
-          <MechanicalSkillKey key={`static-${idx}`} name={skill.name} color={skill.color} staticPos={skill.pos} isMobile={isMobile} />
+      {/* Violet pulses depending on hovered cluster */}
+      <pointLight 
+        position={[-4, 1, 2]} 
+        color="#8052ff" 
+        intensity={hoveredCluster === 'frontend' ? 4 : 0.5} 
+      />
+      <pointLight 
+        position={[0, 1, 2]} 
+        color="#8052ff" 
+        intensity={hoveredCluster === 'backend' ? 4 : 0.5} 
+      />
+      <pointLight 
+        position={[4, 1, 2]} 
+        color="#8052ff" 
+        intensity={hoveredCluster === 'ai_security' ? 4 : 0.5} 
+      />
+
+      <group 
+        rotation={[Math.PI / 6, 0, 0]} 
+        scale={isMobile ? [0.65, 0.65, 0.65] : [1, 1, 1]}
+        position={isMobile ? [0, 0.8, 0] : [0, 0, 0]}
+      >
+        {Object.entries(clusters).map(([key, data]) => (
+          <SkillCluster3D
+            key={key}
+            clusterKey={key}
+            data={data}
+            hoveredCluster={hoveredCluster}
+            setHoveredCluster={setHoveredCluster}
+          />
         ))}
       </group>
-    </React.Suspense>
+    </>
   );
 }
 
 export default function Skills() {
+  const [hoveredCluster, setHoveredCluster] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const containerRef = useRef(null);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0.7, 1.0], [1, 0]);
-
   return (
-    <div ref={containerRef} className="w-full flex-grow flex flex-col items-center pt-8 pb-16 relative overflow-hidden min-h-screen">
+    <div className="w-full flex-grow flex flex-col items-center pt-8 pb-16 relative overflow-hidden min-h-screen">
       
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accentPrimary/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accentSecondary/5 rounded-full blur-[100px] pointer-events-none" />
-
+      {/* Title */}
       <div className="relative z-10 text-center space-y-4 mb-20 w-full h-24">
         <ParticleHeader 
           text="Technical Skills" 
-          subtext="Proprietary 3D Ecosystem"
+          subtext="Illuminated Keyboard Groups"
         />
       </div>
       
-      {/* 3D Floating Area - Sized to leave room for content below */}
-      <motion.div style={{ opacity }} className="absolute inset-x-0 top-0 bottom-[35%] z-0">
-        <Canvas camera={{ position: [0, 0, isMobile ? 30 : 45], fov: 40 }} dpr={[1, 2]}>
-          <ResponsiveScene isMobile={isMobile} />
+      {/* 3D Clusters Scene */}
+      <div className="absolute inset-x-0 top-[150px] bottom-[350px] z-0">
+        <Canvas camera={{ position: [0, 2.5, 8.5], fov: 45 }}>
+          <Scene 
+            hoveredCluster={hoveredCluster} 
+            setHoveredCluster={setHoveredCluster} 
+            isMobile={isMobile}
+          />
         </Canvas>
-      </motion.div>
+      </div>
 
-      {/* About Box - Positioned to complement the 'circle' above */}
-      <div className="mt-auto w-full flex justify-center z-10 py-6">
+      {/* Engineering Strategy Text Box (Flat border style, no glass/shadow) */}
+      <div className="mt-auto w-full flex justify-center z-10 py-6 px-4">
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="glass p-8 md:p-12 rounded-[2.5rem] w-full max-w-2xl text-center shadow-2xl border border-white/5 bg-black/40 backdrop-blur-3xl mx-4 group hover:border-white/10 transition-colors"
+          className="border border-neutral-800 bg-black p-8 md:p-12 rounded-[2rem] w-full max-w-2xl text-center mx-4 group hover:border-accentPrimary transition-colors"
         >
-          <div className="h-1 w-20 bg-gradient-to-r from-accentPrimary to-accentSecondary mx-auto mb-8 rounded-full opacity-50" />
+          <div className="h-0.5 w-16 bg-accentPrimary mx-auto mb-8 rounded-full" />
           
-          <h3 className="mb-6 text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
+          <h3 className="mb-6 text-2xl md:text-3xl font-display font-light text-white tracking-tight uppercase">
             Engineering Strategy
           </h3>
-          <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed group-hover:text-gray-300 transition-colors">
+          <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed transition-colors">
             My development philosophy centers on <span className="text-white font-bold">Performance</span> and 
             <span className="text-white font-bold"> Scalability</span>. I leverage cutting-edge 
             <span className="text-accentPrimary font-bold"> AI models</span> and 
-            <span className="text-accentSecondary font-bold"> immersive UI</span> to transform complex requirements into 
+            <span className="text-accentPrimary font-bold"> immersive UI</span> to transform complex requirements into 
             intuitive user journeys. Every orbit in this ecosystem represents a pillar of my technical foundation.
           </p>
         </motion.div>

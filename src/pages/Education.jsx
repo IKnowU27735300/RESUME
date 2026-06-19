@@ -73,19 +73,19 @@ export default function Education() {
             onHoverStart={() => setHoveredIdx(idx)}
             onHoverEnd={() => setHoveredIdx(null)}
             onClick={() => window.open(edu.url, '_blank')}
-            className="glass p-6 md:p-10 rounded-3xl relative cursor-pointer group hover:bg-white/5 border border-white/5 transition-all duration-500 shadow-xl"
+            className="border border-neutral-800 hover:border-accentPrimary bg-transparent p-6 md:p-10 rounded-2xl relative cursor-pointer group transition-all duration-500 shadow-none"
           >
             <div className="flex justify-between items-start mb-4">
-              <div className="text-xs font-mono px-3 py-1 rounded-full bg-accentPrimary/10 text-accentPrimary border border-accentPrimary/20">
+              <div className="text-xs font-mono px-3 py-1 rounded-full border border-neutral-800 text-accentPrimary bg-transparent">
                 {edu.date}
               </div>
             </div>
             
-            <h3 className="text-2xl md:text-3xl font-display font-black text-white mb-2 leading-tight">
+            <h3 className="text-2xl md:text-3xl font-display font-light text-white mb-2 leading-tight">
               {edu.role}
             </h3>
             <h4 className="text-lg text-gray-400 font-medium mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-accentSecondary" />
+              <div className="w-1.5 h-1.5 rounded-full bg-accentPrimary" />
               {edu.company}
             </h4>
             
@@ -99,26 +99,25 @@ export default function Education() {
               Click to Explore Institution <Star className="w-3 h-3 ml-2 fill-current" />
             </div>
             
-            {/* Hover Tooltip Overlay - Responsive placement */}
+            {/* Hover Tooltip Overlay - Minimal styling */}
             <AnimatePresence>
               {hoveredIdx === idx && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-full md:bottom-auto md:top-0 md:ml-8 mb-4 md:mb-0 w-[280px] glass rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[100] pointer-events-none border border-white/10 backdrop-blur-3xl"
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-full md:bottom-auto md:top-0 md:ml-8 mb-4 md:mb-0 w-[280px] border border-neutral-800 bg-black rounded-xl overflow-hidden z-[100] pointer-events-none shadow-none"
                 >
                   <div className="relative h-32 w-full overflow-hidden">
-                    <img src={edu.review.image} alt={edu.review.title} className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-darkBg to-transparent" />
+                    <img src={edu.review.image} alt={edu.review.title} className="w-full h-full object-cover" />
                   </div>
-                  <div className="p-5 bg-darkBg/60">
+                  <div className="p-5 bg-black">
                     <strong className="block text-white text-base mb-2 font-display">{edu.review.title}</strong>
-                    <div className="flex items-center gap-1.5 text-yellow-400 mb-3">
+                    <div className="flex items-center gap-1.5 text-accentPrimary mb-3">
                        {[...Array(5)].map((_, i) => (
                          <Star key={i} className={`w-3.5 h-3.5 ${i < Math.floor(edu.review.rating) ? 'fill-current' : 'opacity-30'}`} />
                        ))}
-                       <span className="text-[10px] text-yellow-100/60 ml-1">{edu.review.rating}</span>
+                       <span className="text-[10px] text-gray-500 ml-1">{edu.review.rating}</span>
                     </div>
                     <p className="text-gray-400 text-xs leading-relaxed mb-1">{edu.review.desc}</p>
                   </div>
