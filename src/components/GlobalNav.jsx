@@ -38,7 +38,7 @@ export default function GlobalNav({ activePage, setActivePage }) {
               key={p}
               onClick={() => handlePageSelect(p)}
               className={`relative px-5 py-2 text-sm font-bold rounded-full transition-all duration-300 ${
-                activePage === p ? 'text-black' : 'text-gray-600 hover:text-black'
+                activePage === p ? 'text-white' : 'text-gray-600 hover:text-black'
               }`}
             >
               {activePage === p && (

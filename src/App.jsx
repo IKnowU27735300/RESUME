@@ -51,7 +51,7 @@ function App() {
   }, [loading]);
 
   return (
-    <div className="min-h-screen relative w-full bg-white scroll-smooth selection:bg-black selection:text-white overflow-x-hidden">
+    <div className="min-h-screen relative w-full bg-[#FFFDD0] scroll-smooth selection:bg-black selection:text-white overflow-x-hidden">
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -66,7 +66,17 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Background fixed graphic with increased intensity and pulsed breathing effect */}
+      {/* Background Effects */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Animated glowing orbs using the existing CSS animations */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-amber-300/30 rounded-full blur-[120px] animate-glow" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-yellow-400/20 rounded-full blur-[150px] animate-glow-delayed" />
+        <div className="absolute top-[30%] left-[60%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-orange-300/20 rounded-full blur-[100px] animate-glow" style={{ animationDelay: '5s' }} />
+        
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgwLCAwLCAwLCAwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-60 mix-blend-multiply" />
+      </div>
+
       <GlobalNav activePage={activePage} setActivePage={setActivePage} />
 
       <main className="w-full relative z-10 mx-auto overflow-x-hidden">
