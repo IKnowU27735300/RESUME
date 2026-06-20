@@ -84,27 +84,27 @@ function App() {
            <Home />
         </section>
 
-        <section id="Experience" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
+        <section id="Experience" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-2">
            <Experience />
         </section>
 
-        <section id="Education" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
+        <section id="Education" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-2">
            <Education />
         </section>
 
-        <section id="Skills" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
+        <section id="Skills" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-2">
            <Skills />
         </section>
 
-        <section id="Projects" className="w-full px-0 py-12 flex flex-col items-center justify-center">
+        <section id="Projects" className="w-full px-0 py-2 flex flex-col items-center justify-center">
            <Projects />
         </section>
 
-        <section id="Achievements" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
+        <section id="Achievements" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-2">
            <Achievements />
         </section>
 
-        <section id="Contact" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
+        <section id="Contact" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-2">
            <Contact />
         </section>
       </main>

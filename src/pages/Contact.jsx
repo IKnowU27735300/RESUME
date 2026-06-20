@@ -26,17 +26,32 @@ export default function Contact() {
   };
 
   return (
-    <div ref={containerRef} className="w-full min-h-screen flex flex-col items-center justify-center py-20 relative overflow-hidden">
+    <div ref={containerRef} className="w-full flex flex-col items-center py-12 relative overflow-hidden">
       
       {/* Background Orbs */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-[#C5A021]/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 text-center mb-16 px-4 w-full h-24">
-        <ParticleHeader 
-          text="Get In Touch" 
-          subtext="Let's Build the Future"
-        />
+      <div className="relative z-10 text-center mb-16 px-4 w-full flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="w-52 h-52 md:w-72 md:h-72 -mb-8 relative z-20 -translate-x-32 md:-translate-x-96 translate-y-10 md:translate-y-16"
+        >
+          <img 
+            src="/AVATAR.png" 
+            alt="Anish Inamadar" 
+            className="w-full h-full object-contain drop-shadow-2xl"
+          />
+        </motion.div>
+        
+        <div className="h-24 w-full relative">
+          <ParticleHeader 
+            text="Get In Touch" 
+            subtext="Let's Build the Future"
+          />
+        </div>
       </div>
 
       <div className="w-full max-w-7xl flex flex-col xl:flex-row items-center justify-center gap-12 lg:gap-20">

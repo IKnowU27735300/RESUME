@@ -49,7 +49,7 @@ export default function Education() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   return (
-    <div className="w-full relative flex flex-col items-center py-12 mb-20">
+    <div className="w-full relative flex flex-col items-center py-4 mb-8">
       <div className="relative z-10 text-center space-y-4 mb-16 w-full h-24">
         <ParticleHeader 
           text="Academic Background" 

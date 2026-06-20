@@ -22,7 +22,7 @@ export default function Achievements() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   return (
-    <div className="w-full flex flex-col items-center py-12 relative">
+    <div className="w-full flex flex-col items-center py-4 relative">
       <div className="text-center mb-16 space-y-4 w-full h-24">
         <ParticleHeader 
           text="Awards & Certificates" 
