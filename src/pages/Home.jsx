@@ -44,11 +44,11 @@ export default function Home() {
       setIsGlitching(true);
       setTimeout(() => {
         setLocationCity(prev => prev === 'Bengaluru' ? 'Vijayapura' : 'Bengaluru');
-      }, 200);
+      }, 100);
       setTimeout(() => {
         setIsGlitching(false);
-      }, 500);
-    }, 4000); // Loop every 4 seconds
+      }, 300);
+    }, 3000); // Loop every 3 seconds
 
     return () => clearInterval(interval);
   }, []);
