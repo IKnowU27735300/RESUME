@@ -5,7 +5,8 @@ import {
   useAnimationFrame,
   useMotionValue,
   useSpring,
-  useTransform
+  useTransform,
+  useMotionTemplate
 } from 'framer-motion';
 import { 
   FileText, 
@@ -26,14 +27,6 @@ import {
 
 const projects = [
   // ... (projects array remains the same)
-  {
-    title: 'Resume',
-    desc: 'An immersive 3D AI portfolio and resume builder showcasing technical expertise.',
-    tech: ['React', 'Three.js', 'Framer Motion'],
-    link: 'https://github.com/IKnowU27735300/RESUME-main',
-    icon: FileText,
-    color: '#000000'
-  },
   {
     title: 'AI Partner',
     desc: 'An AI-driven companion for smart interactions and task assistance.',
@@ -103,7 +96,7 @@ const projects = [
     color: '#000000'
   },
   {
-    title: 'Vvencer Website',
+    title: 'Vencer Website',
     desc: 'Official website for Vvencer, featuring modern design and transitions.',
     tech: ['Frontend', 'UI/UX', 'Animation'],
     link: 'https://github.com/IKnowU27735300/Vencer_Website',
@@ -127,6 +120,93 @@ const projects = [
     color: '#8B7226'
   }
 ];
+
+function ProjectCard({ proj, cardWidth, isMobile }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.a
+      href={proj.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative flex-shrink-0 rounded-[2.5rem] overflow-hidden group/card shadow-xl hover:shadow-2xl border border-black/5 bg-white/60 backdrop-blur-3xl transition-all duration-500 hover:-translate-y-4 hover:border-black/10 cursor-pointer"
+      style={{ width: `${cardWidth}px`, height: isMobile ? '400px' : '480px' }}
+      draggable="false"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Spotlight background */}
+      <motion.div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover/card:opacity-100 z-0"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              600px circle at ${mouseX}px ${mouseY}px,
+              ${proj.color === '#000000' ? 'rgba(0,0,0,0.06)' : proj.color + '25'},
+              transparent 60%
+            )
+          `,
+        }}
+      />
+
+      {/* Decorative gradient blob */}
+      <div 
+        className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-black/5 to-transparent rounded-bl-full -z-10 group-hover/card:scale-150 transition-transform duration-700 ease-out" 
+        style={{ backgroundColor: proj.color === '#000000' ? 'transparent' : proj.color + '15' }}
+      />
+
+      <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#FDFBF7]/95 via-[#FDFBF7]/60 to-transparent z-0" />
+
+      <div className="absolute inset-0 flex flex-col p-8 z-10 pointer-events-none">
+        <div 
+          className="w-14 h-14 md:w-16 md:h-16 rounded-[1.25rem] bg-white border border-black/5 flex items-center justify-center mb-auto shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] group-hover/card:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.2)] group-hover/card:scale-110 group-hover/card:rotate-3 transition-all duration-500 ease-out"
+          style={{ color: proj.color === '#000000' ? '#222' : proj.color }}
+        >
+          <proj.icon className="w-7 h-7 md:w-8 md:h-8 drop-shadow-sm" />
+        </div>
+        
+        <div className="space-y-3 transform group-hover/card:-translate-y-2 transition-transform duration-500 ease-out">
+          <h3 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight tracking-tight">
+            {proj.title}
+          </h3>
+          <p className="text-xs md:text-sm text-gray-600 font-medium leading-relaxed line-clamp-2">
+            {proj.desc}
+          </p>
+          
+          <div className="flex flex-wrap gap-2 pt-2">
+            {proj.tech.slice(0, 3).map((t, i) => (
+              <span 
+                key={i} 
+                className="px-3 py-1.5 text-[10px] font-bold tracking-wider rounded-full bg-black/5 text-gray-800 border border-black/5 backdrop-blur-sm shadow-sm uppercase"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <div className="pt-6">
+            <div className="w-full py-4 bg-gray-900 text-white rounded-xl shadow-lg shadow-black/20 group-hover/card:shadow-black/30 group-hover/card:bg-black transition-all duration-500 font-bold text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 overflow-hidden relative">
+              <span className="relative z-10 flex items-center gap-2">
+                {proj.isPrivate ? (
+                  <>Private <Lock className="w-4 h-4" /></>
+                ) : (
+                  <>Explore <ExternalLink className="w-4 h-4 group-hover/card:translate-x-1 group-hover/card:-translate-y-1 transition-transform" /></>
+                )}
+              </span>
+              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover/card:translate-y-0 transition-transform duration-500 ease-in-out" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
 
 export default function Projects() {
   const baseX = useMotionValue(0);
@@ -194,64 +274,7 @@ export default function Projects() {
           style={{ gap: `${gap}px`, x, width: 'max-content' }}
         >
           {tripleProjects.map((proj, idx) => (
-            <motion.a
-              href={proj.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={idx}
-              className="relative flex-shrink-0 rounded-[2.5rem] overflow-hidden group/card shadow-2xl border border-black/10 transition-all duration-500"
-              style={{ width: `${cardWidth}px`, height: isMobile ? '400px' : '480px' }}
-              draggable="false"
-              whileHover={{ y: -15, scale: 1.02 }}
-            >
-              {/* Card Aura */}
-              <div 
-                className="absolute inset-0 opacity-20 group-hover/card:opacity-40 transition-opacity duration-700"
-                style={{ background: `radial-gradient(circle at 50% 0%, ${proj.color}, transparent 70%)` }}
-              />
-              <div className="absolute inset-0 backdrop-blur-3xl bg-white/40" />
-               
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#FDFBF7]/90 to-transparent z-0" />
-
-              <div className="absolute inset-0 flex flex-col p-8 z-10 pointer-events-none">
-                <div 
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/50 backdrop-blur-xl border border-black/10 flex items-center justify-center mb-auto shadow-xl group-hover/card:scale-110 transition-transform duration-500"
-                  style={{ color: proj.color }}
-                >
-                  <proj.icon className="w-8 h-8 md:w-9 md:h-9" />
-                </div>
-                
-                <div className="space-y-3">
-                  <h3 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">
-                    {proj.title}
-                  </h3>
-                  <p className="text-xs md:text-sm text-gray-600 font-sans leading-relaxed line-clamp-2">
-                    {proj.desc}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {proj.tech.slice(0, 3).map((t, i) => (
-                      <span 
-                        key={i} 
-                        className="px-2.5 py-1 text-[9px] font-mono font-bold rounded-lg bg-black/5 border border-black/10 text-gray-700"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="pt-6">
-                    <div className="w-full py-3.5 bg-black/5 backdrop-blur-xl border border-black/10 text-gray-800 rounded-xl group-hover/card:bg-black group-hover/card:text-white transition-all duration-500 font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-                      {proj.isPrivate ? (
-                        <>Private <Lock className="w-3.5 h-3.5" /></>
-                      ) : (
-                        <>Explore <ExternalLink className="w-3.5 h-3.5" /></>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.a>
+            <ProjectCard key={idx} proj={proj} cardWidth={cardWidth} isMobile={isMobile} />
           ))}
         </motion.div>
         

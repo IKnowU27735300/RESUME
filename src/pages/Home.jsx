@@ -29,7 +29,7 @@ export default function Home() {
   }, []);
   
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
-  const [locationCity, setLocationCity] = useState('Bengaluru');
+  const [locationCity, setLocationCity] = useState('Vijayapura');
   const [isGlitching, setIsGlitching] = useState(false);
   
   useEffect(() => {
@@ -58,11 +58,9 @@ export default function Home() {
       
       {/* 3D Keyboard Ambient Background - Fades on scroll to avoid overlap with Experience */}
       <motion.div 
-        className="fixed inset-0 z-0 pointer-events-none flex items-center justify-end overflow-hidden"
+        className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
         style={{
-          opacity: keyboardOpacity,
-          maskImage: 'radial-gradient(ellipse at 80% 60%, black 10%, transparent 60%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at 80% 60%, black 10%, transparent 60%)'
+          opacity: keyboardOpacity
         }}
       >
         <motion.div 

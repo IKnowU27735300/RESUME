@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, ContactShadows, Text } from '@react-three/drei';
+import { Float, ContactShadows, Text, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import LazyCanvas from './LazyCanvas';
 
@@ -161,15 +161,26 @@ function FullKeyboard() {
 
   return (
     <group>
-      <mesh position={[0, -0.25, 0]} receiveShadow castShadow>
-        <boxGeometry args={[TOTAL_WIDTH + 0.6, 0.4, TOTAL_DEPTH + 0.6]} />
+      <RoundedBox 
+        position={[0, -0.25, 0]} 
+        args={[TOTAL_WIDTH + 0.6, 0.4, TOTAL_DEPTH + 0.6]} 
+        radius={0.25} 
+        smoothness={32} 
+        receiveShadow 
+        castShadow
+      >
         <meshStandardMaterial color="#0f0f13" roughness={0.8} metalness={0.7} />
-      </mesh>
+      </RoundedBox>
       
-      <mesh position={[0, -0.05, 0]} receiveShadow>
-        <boxGeometry args={[TOTAL_WIDTH + 0.2, 0.05, TOTAL_DEPTH + 0.2]} />
+      <RoundedBox 
+        position={[0, -0.05, 0]} 
+        args={[TOTAL_WIDTH + 0.2, 0.05, TOTAL_DEPTH + 0.2]} 
+        radius={0.1} 
+        smoothness={32} 
+        receiveShadow
+      >
         <meshStandardMaterial color="#050505" roughness={0.9} />
-      </mesh>
+      </RoundedBox>
       
       {keys}
     </group>
@@ -178,9 +189,9 @@ function FullKeyboard() {
 
 export default function ThreeKeyboard() {
   return (
-    <div className="w-full h-full min-h-[500px] lg:min-h-[600px] relative pointer-events-none flex items-center justify-center translate-x-16 sm:translate-x-32 md:translate-x-64 translate-y-24 scale-75 md:scale-100 origin-right">
+    <div className="absolute inset-0 w-full h-full pointer-events-none">
       <LazyCanvas>
-        <Canvas camera={{ position: [-2, 8, 8], fov: 40 }} shadows>
+        <Canvas camera={{ position: [2, 6, 10], fov: 40 }} shadows>
           <ambientLight intensity={0.5} />
           <directionalLight 
             position={[10, 15, 10]} 
@@ -192,7 +203,7 @@ export default function ThreeKeyboard() {
           <pointLight position={[-10, 5, -10]} intensity={0.5} color="#ffffff" />
           
           <Float speed={2} rotationIntensity={0.15} floatIntensity={0.3}>
-            <group scale={[1.4, 1.4, 1.4]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[4, 0, 0]}>
+            <group scale={[1.5, 1.5, 1.5]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[7.5, -2.5, 0]}>
               <FullKeyboard />
             </group>
           </Float>
