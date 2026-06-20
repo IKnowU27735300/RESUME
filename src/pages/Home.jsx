@@ -62,7 +62,9 @@ export default function Home() {
         
         <div className="space-y-2">
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[5rem] leading-[1.1] font-display font-extrabold tracking-tight drop-shadow-2xl">
-            {typedText}
+            <span className="bg-gradient-to-l from-[#D4AF37] to-gray-900 bg-clip-text text-transparent">
+              {typedText}
+            </span>
             <motion.span 
               animate={{ opacity: [0, 1, 0] }} 
               transition={{ repeat: Infinity, duration: 0.8 }}
@@ -77,7 +79,7 @@ export default function Home() {
           </h2>
         </div>
         
-        <p className="flex items-center text-gray-400 font-medium tracking-wide drop-shadow-md pb-2 sm:pb-4 text-sm sm:text-base">
+        <p className="flex items-center text-gray-600 font-medium tracking-wide drop-shadow-md pb-2 sm:pb-4 text-sm sm:text-base">
           <MapPin className="w-5 h-5 mr-3 text-accentSecondary" />
           Bengaluru, Karnataka, India
         </p>
@@ -85,18 +87,18 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
           <button 
             onClick={() => {
-              document.getElementById('Experience')?.scrollIntoView({ behavior: 'smooth' });
+              document.getElementById('Projects')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="glass flex items-center justify-center px-8 py-4 rounded-2xl hover:bg-white hover:text-black transition-all group font-bold shadow-lg hover:shadow-accentPrimary/40 border border-white/5"
+            className="glass flex items-center justify-center px-8 py-4 rounded-2xl hover:bg-black/10 hover:text-black text-gray-800 transition-all group font-bold shadow-lg border border-black/10"
           >
             Explore Work
             <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
           </button>
           
           <a 
-            href="/resume.pdf" 
-            download="Resume without pic.pdf"
-            className="border border-white/10 bg-white/5 backdrop-blur-md flex items-center justify-center px-8 py-4 rounded-2xl hover:bg-white/10 transition-all font-bold shadow-lg text-white group"
+            href="/Anish_Inamadar.pdf" 
+            download="Anish Inamadar.pdf"
+            className="border border-black/10 bg-black/5 backdrop-blur-md flex items-center justify-center px-8 py-4 rounded-2xl hover:bg-black/10 transition-all font-bold shadow-lg text-gray-800 group"
           >
             Download CV
             <ArrowUpRight className="w-5 h-5 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

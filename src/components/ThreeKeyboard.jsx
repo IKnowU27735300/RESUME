@@ -118,7 +118,7 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
 
 function FullKeyboard() {
   const keys = [];
-  const accentColors = ['#D4AF37', '#C5A021', '#E6BE8A', '#8B7226'];
+  const accentColors = ['#000000', '#111111', '#222222', '#333333'];
   
   let currentZ = 0;
   
@@ -178,7 +178,7 @@ function FullKeyboard() {
 
 export default function ThreeKeyboard() {
   return (
-    <div className="w-full h-full min-h-[500px] lg:min-h-[600px] relative pointer-events-none flex items-center justify-center translate-x-32 md:translate-x-64 translate-y-24">
+    <div className="w-full h-full min-h-[500px] lg:min-h-[600px] relative pointer-events-none flex items-center justify-center translate-x-16 sm:translate-x-32 md:translate-x-64 translate-y-24 scale-75 md:scale-100 origin-right">
       <LazyCanvas>
         <Canvas camera={{ position: [-2, 8, 8], fov: 40 }} shadows>
           <ambientLight intensity={0.5} />
@@ -189,7 +189,7 @@ export default function ThreeKeyboard() {
             shadow-mapSize-width={1024} 
             shadow-mapSize-height={1024}
           />
-          <pointLight position={[-10, 5, -10]} intensity={0.5} color="#D4AF37" />
+          <pointLight position={[-10, 5, -10]} intensity={0.5} color="#ffffff" />
           
           <Float speed={2} rotationIntensity={0.15} floatIntensity={0.3}>
             <group scale={[1.4, 1.4, 1.4]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[4, 0, 0]}>

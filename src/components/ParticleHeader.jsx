@@ -13,7 +13,7 @@ const ParticleHeader = ({ text, className = "", subtext = "", align = 'center', 
   const mouseForce = 0.3; 
   const friction = 0.92; 
   
-  const colors = ["#D4AF37", "#F1C40F", "#FFD700", "#B8860B", "#E6BE8A"];
+  const colors = ["#000000", "#111111", "#222222", "#333333", "#444444"];
 
   class Particle {
     constructor(x, y, color) {
@@ -169,7 +169,7 @@ const ParticleHeader = ({ text, className = "", subtext = "", align = 'center', 
         onMouseUp={() => { mouse.current.pressed = false; }}
       />
       {subtext && (
-        <p className={`absolute bottom-0 text-gray-400 font-display font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.3em] transform translate-y-4 pointer-events-none ${align === 'center' ? 'text-center' : (align === 'right' ? 'text-right' : 'text-left')}`}>
+        <p className={`absolute bottom-0 text-gray-600 font-display font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.3em] transform translate-y-4 pointer-events-none ${align === 'center' ? 'text-center' : (align === 'right' ? 'text-right' : 'text-left')}`}>
           {subtext}
         </p>
       )}

@@ -5,25 +5,18 @@
 @layer base {
   body {
     margin: 0;
-    background-color: #050505;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.2) 0%, transparent 80%),
-      radial-gradient(at 100% 0%, rgba(197, 160, 33, 0.15) 0%, transparent 80%),
-      radial-gradient(at 50% 50%, rgba(139, 114, 38, 0.12) 0%, transparent 85%),
-      radial-gradient(at 100% 100%, rgba(212, 175, 55, 0.15) 0%, transparent 80%),
-      radial-gradient(at 0% 100%, rgba(197, 160, 33, 0.15) 0%, transparent 80%);
-    background-attachment: fixed;
-    color: white;
+    background-color: #ffffff;
+    color: #000000;
     overflow-x: hidden;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/5;
+    @apply bg-black/5 backdrop-blur-md border border-black/10;
   }
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F1C40F] to-[#E6BE8A];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-black via-gray-600 to-gray-400;
   }
 }
 
@@ -32,14 +25,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0f13;
+  background: #EAE6D9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #ccc;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #aaa;
 }
 
 /* Infinite Scroll Animation */
@@ -87,4 +80,117 @@
 .animate-glow-delayed {
   animation: pulseGlowDelayed 12s ease-in-out infinite;
   will-change: transform, opacity;
+}
+/* Glitch Effect */
+.glitch-wrapper {
+  position: relative;
+}
+
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 red;
+  clip-path: inset(24% 0 58% 0);
+  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 blue;
+  clip-path: inset(85% 0 7% 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip-path: inset(20% 0 80% 0); }
+  20% { clip-path: inset(60% 0 10% 0); }
+  40% { clip-path: inset(40% 0 50% 0); }
+  60% { clip-path: inset(80% 0 5% 0); }
+  80% { clip-path: inset(10% 0 70% 0); }
+  100% { clip-path: inset(30% 0 50% 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip-path: inset(10% 0 60% 0); }
+  20% { clip-path: inset(30% 0 20% 0); }
+  40% { clip-path: inset(70% 0 10% 0); }
+  60% { clip-path: inset(20% 0 50% 0); }
+  80% { clip-path: inset(50% 0 30% 0); }
+  100% { clip-path: inset(5% 0 80% 0); }
+}
+/* TV Glitch and Static */
+.tv-static {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: static-noise 0.3s infinite steps(1);
+  opacity: 0.15;
+}
+
+@keyframes static-noise {
+  0% { background-position: 0 0; }
+  20% { background-position: -50px 50px; }
+  40% { background-position: 50px -50px; }
+  60% { background-position: 100px 100px; }
+  80% { background-position: -100px -100px; }
+  100% { background-position: 0 0; }
+}
+
+.crt-scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.05) 50%,
+    rgba(0, 0, 0, 0.05)
+  );
+  background-size: 100% 6px;
+  animation: scanlines-scroll 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanlines-scroll {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+
+.bg-jitter {
+  animation: bg-jitter-anim 5s infinite;
+}
+
+@keyframes bg-jitter-anim {
+  0% { transform: translate(0) scale(1); filter: contrast(1); }
+  2% { transform: translate(-3px, 3px) scale(1.02); filter: contrast(1.2) grayscale(0.2); }
+  4% { transform: translate(3px, -3px) scale(1); filter: contrast(1); }
+  6% { transform: translate(0) scale(1); }
+  100% { transform: translate(0); }
+}
+
+/* RGB Gaming Light Hover Effect */
+@keyframes rgb-gaming-shadow {
+  0% { box-shadow: 0 0 20px 2px rgba(255, 0, 0, 0.6); }
+  16% { box-shadow: 0 0 20px 2px rgba(255, 255, 0, 0.6); }
+  33% { box-shadow: 0 0 20px 2px rgba(0, 255, 0, 0.6); }
+  50% { box-shadow: 0 0 20px 2px rgba(0, 255, 255, 0.6); }
+  66% { box-shadow: 0 0 20px 2px rgba(0, 0, 255, 0.6); }
+  83% { box-shadow: 0 0 20px 2px rgba(255, 0, 255, 0.6); }
+  100% { box-shadow: 0 0 20px 2px rgba(255, 0, 0, 0.6); }
+}
+
+.hover-rgb-light:hover {
+  animation: rgb-gaming-shadow 2.5s linear infinite;
+  z-index: 10;
 }

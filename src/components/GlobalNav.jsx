@@ -27,24 +27,24 @@ export default function GlobalNav({ activePage, setActivePage }) {
           className="text-2xl font-display font-bold tracking-tighter cursor-pointer flex items-center gap-2" 
           onClick={() => handlePageSelect('Home')}
         >
-          <div className="w-8 h-8 rounded-lg bg-accentPrimary flex items-center justify-center text-black font-black text-xs">AI</div>
-          <span>Port.<span className="text-accentPrimary">Folio</span></span>
+          <div className="w-8 h-8 rounded-lg bg-accentPrimary flex items-center justify-center text-white font-black text-xs">AI</div>
+          <span className="text-black">Port.<span className="text-gray-400">Folio</span></span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1 glass px-2 py-2 rounded-full shadow-2xl border border-white/10">
+        <div className="hidden md:flex items-center gap-1 glass px-2 py-2 rounded-full shadow-2xl border border-black/10">
           {pages.map((p) => (
             <button
               key={p}
               onClick={() => handlePageSelect(p)}
               className={`relative px-5 py-2 text-sm font-bold rounded-full transition-all duration-300 ${
-                activePage === p ? 'text-black' : 'text-gray-400 hover:text-white'
+                activePage === p ? 'text-black' : 'text-gray-600 hover:text-black'
               }`}
             >
               {activePage === p && (
                 <motion.div
                   layoutId="nav-bubble"
-                  className="absolute inset-0 bg-accentPrimary rounded-full -z-10 shadow-[0_0_15px_rgba(212,175,55,0.5)]"
+                  className="absolute inset-0 bg-accentPrimary rounded-full -z-10 shadow-[0_0_15px_rgba(0,0,0,0.2)]"
                   transition={{ type: "spring", stiffness: 350, damping: 30 }}
                 />
               )}
@@ -55,7 +55,7 @@ export default function GlobalNav({ activePage, setActivePage }) {
 
         {/* Mobile Menu Toggle */}
         <button 
-          className="md:hidden glass w-12 h-12 rounded-full flex items-center justify-center text-white border border-white/10 shadow-xl pointer-events-auto"
+          className="md:hidden glass w-12 h-12 rounded-full flex items-center justify-center text-gray-900 border border-black/10 shadow-xl pointer-events-auto"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
         >
@@ -70,7 +70,7 @@ export default function GlobalNav({ activePage, setActivePage }) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-0 bg-[#050505]/95 backdrop-blur-2xl z-[90] flex flex-col items-center justify-center p-8 md:hidden pointer-events-auto"
+              className="fixed inset-0 bg-white/95 backdrop-blur-2xl z-[90] flex flex-col items-center justify-center p-8 md:hidden pointer-events-auto"
             >
               <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
                  <div className="absolute -top-24 -left-24 w-96 h-96 bg-accentPrimary rounded-full blur-[120px]" />
@@ -86,14 +86,14 @@ export default function GlobalNav({ activePage, setActivePage }) {
                     transition={{ delay: idx * 0.05 + 0.2 }}
                     onClick={() => handlePageSelect(p)}
                     className={`text-4xl font-display font-black tracking-tight transition-all ${
-                      activePage === p ? 'text-accentPrimary scale-110' : 'text-white/60 hover:text-white'
+                      activePage === p ? 'text-accentPrimary scale-110' : 'text-gray-600 hover:text-black'
                     }`}
                   >
                     {p}
                     {activePage === p && (
                       <motion.div 
                         layoutId="mobile-active-dot"
-                        className="h-2 w-2 bg-accentPrimary rounded-full mx-auto mt-2 shadow-[0_0_10px_#D4AF37]"
+                        className="h-2 w-2 bg-accentPrimary rounded-full mx-auto mt-2 shadow-[0_0_10px_#000000]"
                       />
                     )}
                   </motion.button>

@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -51,7 +51,7 @@ function App() {
   }, [loading]);
 
   return (
-    <div className="min-h-screen relative w-full bg-[#050505] scroll-smooth selection:bg-accentPrimary/30">
+    <div className="min-h-screen relative w-full bg-white scroll-smooth selection:bg-black selection:text-white overflow-x-hidden">
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -67,10 +67,6 @@ function App() {
       </AnimatePresence>
 
       {/* Background fixed graphic with increased intensity and pulsed breathing effect */}
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-accentSecondary/20 via-accentSecondary/5 via-50% to-transparent to-90% opacity-50 animate-glow"></div>
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-accentPrimary/20 via-accentPrimary/5 via-50% to-transparent to-90% opacity-30 animate-glow-delayed"></div>
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_50%_50%,_var(--tw-gradient-stops))] from-accentTertiary/10 via-transparent to-transparent opacity-40 animate-glow"></div>
-
       <GlobalNav activePage={activePage} setActivePage={setActivePage} />
 
       <main className="w-full relative z-10 mx-auto overflow-x-hidden">
@@ -78,27 +74,27 @@ function App() {
            <Home />
         </section>
 
-        <section id="Experience" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+        <section id="Experience" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
            <Experience />
         </section>
 
-        <section id="Education" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+        <section id="Education" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
            <Education />
         </section>
 
-        <section id="Skills" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+        <section id="Skills" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
            <Skills />
         </section>
 
-        <section id="Projects" className="min-h-screen w-full px-0 py-20 flex flex-col items-center justify-center">
+        <section id="Projects" className="w-full px-0 py-12 flex flex-col items-center justify-center">
            <Projects />
         </section>
 
-        <section id="Achievements" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+        <section id="Achievements" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
            <Achievements />
         </section>
 
-        <section id="Contact" className="min-h-screen w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-20">
+        <section id="Contact" className="w-full px-4 lg:px-16 xl:px-24 flex items-center justify-center py-12">
            <Contact />
         </section>
       </main>

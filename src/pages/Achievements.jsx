@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ParticleHeader from '../components/ParticleHeader';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Award, ShieldCheck, Trophy, FileCode, Lightbulb, ExternalLink } from 'lucide-react';
-import ThreeTrophy from '../components/ThreeTrophy';
 
 // Import certificates
 import AIEssentials from '../../Certificates/AI essentials.png';
@@ -20,8 +19,10 @@ const certs = [
 ];
 
 export default function Achievements() {
+  const [hoveredIdx, setHoveredIdx] = useState(null);
+
   return (
-    <div className="w-full min-h-screen flex flex-col items-center py-12">
+    <div className="w-full flex flex-col items-center py-12 relative">
       <div className="text-center mb-16 space-y-4 w-full h-24">
         <ParticleHeader 
           text="Awards & Certificates" 
@@ -31,16 +32,18 @@ export default function Achievements() {
       
       <div className="flex flex-col xl:flex-row items-start w-full max-w-7xl gap-12 lg:gap-16">
         
-        {/* Left: Certifications Grid */}
-        <div className="flex-[2] w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        {/* Certifications Grid - Now takes full width but centered */}
+        <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 relative">
           {certs.map((c, idx) => (
             <motion.a
               key={idx}
               href={c.img}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass p-6 md:p-8 rounded-[2rem] flex items-center gap-5 group transition-all duration-500 border border-white/5 hover:bg-white/5"
+              className="glass p-6 md:p-8 rounded-[2rem] flex items-center gap-5 group transition-all duration-500 border border-black/10 hover:bg-black/5 bg-white/50 relative z-10"
               whileHover={{ y: -8, scale: 1.02 }}
+              onHoverStart={() => setHoveredIdx(idx)}
+              onHoverEnd={() => setHoveredIdx(null)}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -53,46 +56,40 @@ export default function Achievements() {
                 <c.icon className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                 <h4 className="font-display font-bold text-lg md:text-xl text-white group-hover:text-accentPrimary transition-colors line-clamp-1">
+                 <h4 className="font-display font-bold text-lg md:text-xl text-gray-900 group-hover:text-accentPrimary transition-colors line-clamp-1">
                    {c.name}
                  </h4>
-                 <p className="text-gray-500 text-xs md:text-sm font-sans font-medium uppercase tracking-wider">{c.issuer}</p>
+                 <p className="text-gray-600 text-xs md:text-sm font-sans font-medium uppercase tracking-wider">{c.issuer}</p>
               </div>
+
+              {/* Popup Preview */}
+              <AnimatePresence>
+                {hoveredIdx === idx && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 md:w-80 h-48 md:h-60 rounded-2xl overflow-hidden shadow-2xl z-[100] pointer-events-none border border-black/10 bg-white"
+                  >
+                    <img src={c.img} alt={c.name} className="w-full h-full object-cover" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.a>
           ))}
         </div>
+      </div>
 
-        {/* Right: 3D Trophy Showcase */}
-        <div className="flex-1 w-full flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="w-full glass rounded-[2.5rem] p-8 md:p-10 flex flex-col items-center border border-accentPrimary/40 shadow-[0_0_50px_rgba(212,175,55,0.2)] relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-20">
-               <Trophy className="w-12 h-12 text-accentPrimary" />
-            </div>
-            
-            <h3 className="text-2xl font-display font-black mb-1 text-white tracking-tight uppercase">Excellence</h3>
-            <p className="text-[10px] text-accentPrimary font-black mb-8 uppercase tracking-[0.2em] opacity-60 italic">Rotate to Inspect</p>
-            
-            <div className="w-full aspect-square md:h-[350px]">
-              <ThreeTrophy />
-            </div>
-          </motion.div>
-          
-          <div className="mt-8">
-            <a 
-              href="https://drive.google.com/drive/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 px-10 py-5 bg-white text-black rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-accentPrimary hover:scale-105 transition-all shadow-2xl active:scale-95 group"
-            >
-              View All Certificates 
-              <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </a>
-          </div>
-        </div>
+      <div className="mt-16 text-center">
+        <a 
+          href="https://drive.google.com/drive/u/3/folders/1B0xrlyDggvmL9ja4CRpASt6WgqGrovc3" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 px-10 py-5 bg-gray-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-accentPrimary hover:scale-105 transition-all shadow-xl active:scale-95 group"
+        >
+          View All Certificates 
+          <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </a>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ const projects = [
     tech: ['React', 'Three.js', 'Framer Motion'],
     link: 'https://github.com/IKnowU27735300/RESUME-main',
     icon: FileText,
-    color: '#D4AF37'
+    color: '#000000'
   },
   {
     title: 'AI Partner',
@@ -40,7 +40,7 @@ const projects = [
     tech: ['AI/ML', 'Python', 'NLP'],
     link: 'https://github.com/IKnowU27735300/AI_Partner',
     icon: Bot,
-    color: '#C5A021',
+    color: '#000000',
     isPrivate: true
   },
   {
@@ -49,7 +49,7 @@ const projects = [
     tech: ['Security', 'Node.js', 'GitHub API'],
     link: '#',
     icon: Shield,
-    color: '#E6BE8A',
+    color: '#000000',
     isPrivate: true
   },
   {
@@ -65,9 +65,9 @@ const projects = [
     title: 'MediWeb',
     desc: 'A comprehensive medical web platform for patient management and records.',
     tech: ['Full Stack', 'Healthcare Tech', 'React'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/Hackthon-MediWEb',
     icon: Globe,
-    color: '#D4AF37'
+    color: '#000000'
   },
   {
     title: 'Desktop-AI',
@@ -75,22 +75,22 @@ const projects = [
     tech: ['Electron', 'Python', 'Automation'],
     link: '#',
     icon: Layout,
-    color: '#C5A021',
+    color: '#000000',
     isPrivate: true
   },
   {
     title: 'Kannada Voice Chat-bot',
     desc: 'A specialized voice-enabled chatbot supporting the Kannada language.',
     tech: ['Speech-to-Text', 'NLP', 'Kannada'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/Kannada-Voice-Chatbot',
     icon: Mic,
-    color: '#E6BE8A'
+    color: '#000000'
   },
   {
     title: 'Sentinel-AI',
     desc: 'Advanced AI monitoring and security system for real-time threat detection.',
     tech: ['Computer Vision', 'Security', 'AI'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/Sentinel_AI',
     icon: UserCheck,
     color: '#8B7226'
   },
@@ -98,25 +98,25 @@ const projects = [
     title: 'SlidesGen.ai',
     desc: 'AI-powered presentation generator that creates slides from text descriptions.',
     tech: ['Generative AI', 'API', 'Web'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/SlideGen.AI',
     icon: Presentation,
-    color: '#D4AF37'
+    color: '#000000'
   },
   {
     title: 'Vvencer Website',
     desc: 'Official website for Vvencer, featuring modern design and transitions.',
     tech: ['Frontend', 'UI/UX', 'Animation'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/Vencer_Website',
     icon: MessageSquare,
-    color: '#C5A021'
+    color: '#000000'
   },
   {
     title: 'Seniors Farewell',
     desc: 'A commemorative platform designed for university senior farewell events.',
     tech: ['Event Tech', 'React', 'Gallery'],
-    link: '#',
+    link: 'https://github.com/IKnowU27735300/Seniors_Farewell',
     icon: Users,
-    color: '#E6BE8A'
+    color: '#000000'
   },
   {
     title: 'Event Vista',
@@ -199,7 +199,7 @@ export default function Projects() {
               target="_blank"
               rel="noopener noreferrer"
               key={idx}
-              className="relative flex-shrink-0 rounded-[2.5rem] overflow-hidden group/card shadow-2xl border border-white/5 transition-all duration-500"
+              className="relative flex-shrink-0 rounded-[2.5rem] overflow-hidden group/card shadow-2xl border border-black/10 transition-all duration-500"
               style={{ width: `${cardWidth}px`, height: isMobile ? '400px' : '480px' }}
               draggable="false"
               whileHover={{ y: -15, scale: 1.02 }}
@@ -209,23 +209,23 @@ export default function Projects() {
                 className="absolute inset-0 opacity-20 group-hover/card:opacity-40 transition-opacity duration-700"
                 style={{ background: `radial-gradient(circle at 50% 0%, ${proj.color}, transparent 70%)` }}
               />
-              <div className="absolute inset-0 backdrop-blur-3xl bg-white/[0.02]" />
+              <div className="absolute inset-0 backdrop-blur-3xl bg-white/40" />
                
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent z-0" />
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#FDFBF7]/90 to-transparent z-0" />
 
               <div className="absolute inset-0 flex flex-col p-8 z-10 pointer-events-none">
                 <div 
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center mb-auto shadow-2xl group-hover/card:scale-110 transition-transform duration-500"
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/50 backdrop-blur-xl border border-black/10 flex items-center justify-center mb-auto shadow-xl group-hover/card:scale-110 transition-transform duration-500"
                   style={{ color: proj.color }}
                 >
                   <proj.icon className="w-8 h-8 md:w-9 md:h-9" />
                 </div>
                 
                 <div className="space-y-3">
-                  <h3 className="text-2xl md:text-3xl font-display font-black text-white leading-tight">
+                  <h3 className="text-2xl md:text-3xl font-display font-black text-gray-900 leading-tight">
                     {proj.title}
                   </h3>
-                  <p className="text-xs md:text-sm text-gray-400 font-sans leading-relaxed line-clamp-2">
+                  <p className="text-xs md:text-sm text-gray-600 font-sans leading-relaxed line-clamp-2">
                     {proj.desc}
                   </p>
                   
@@ -233,7 +233,7 @@ export default function Projects() {
                     {proj.tech.slice(0, 3).map((t, i) => (
                       <span 
                         key={i} 
-                        className="px-2.5 py-1 text-[9px] font-mono font-bold rounded-lg bg-white/5 border border-white/5 text-gray-400"
+                        className="px-2.5 py-1 text-[9px] font-mono font-bold rounded-lg bg-black/5 border border-black/10 text-gray-700"
                       >
                         {t}
                       </span>
@@ -241,7 +241,7 @@ export default function Projects() {
                   </div>
 
                   <div className="pt-6">
-                    <div className="w-full py-3.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl group-hover/card:bg-white group-hover/card:text-black transition-all duration-500 font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+                    <div className="w-full py-3.5 bg-black/5 backdrop-blur-xl border border-black/10 text-gray-800 rounded-xl group-hover/card:bg-black group-hover/card:text-white transition-all duration-500 font-black text-[10px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                       {proj.isPrivate ? (
                         <>Private <Lock className="w-3.5 h-3.5" /></>
                       ) : (
@@ -256,8 +256,8 @@ export default function Projects() {
         </motion.div>
         
         {/* Edge Fades */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-darkBg via-darkBg/50 to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-darkBg via-darkBg/50 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FDFBF7] via-[#FDFBF7]/50 to-transparent z-20 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FDFBF7] via-[#FDFBF7]/50 to-transparent z-20 pointer-events-none" />
       </div>
 
       <motion.div 
@@ -269,10 +269,10 @@ export default function Projects() {
           href="https://github.com/IKnowU27735300"
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative w-full max-w-sm py-5 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-2xl font-display font-black text-base text-white hover:text-black hover:bg-white transition-all duration-500 shadow-2xl flex items-center justify-center gap-4 overflow-hidden"
+          className="group relative w-full max-w-sm py-5 bg-white/60 backdrop-blur-3xl border border-black/10 rounded-2xl font-display font-black text-base text-gray-800 hover:text-white hover:bg-black transition-all duration-500 shadow-xl flex items-center justify-center gap-4 overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-accentPrimary via-accentSecondary to-accentTertiary opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
-          <Terminal className="w-5 h-5 text-gray-400 group-hover:text-black transition-colors" />
+          <Terminal className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors" />
           More on GitHub
           <ExternalLink className="w-4 h-4" />
         </a>

@@ -10,10 +10,10 @@ export default {
         darkBg: '#050505',
         darkGlass: 'rgba(255, 255, 255, 0.05)',
         darkBorder: 'rgba(255, 255, 255, 0.1)',
-        accentPrimary: '#D4AF37',   // Classic Gold
-        accentSecondary: '#C5A021', // Darker Gold
-        accentTertiary: '#E6BE8A',  // Pale Gold
-        accentQuaternary: '#8B7226', // Bronze/Deep Gold
+        accentPrimary: '#000000',   // Black
+        accentSecondary: '#333333', // Dark Gray
+        accentTertiary: '#666666',  // Medium Gray
+        accentQuaternary: '#999999', // Light Gray
       },
       fontFamily: {
         sans: ['"Space Grotesk"', 'sans-serif'],
