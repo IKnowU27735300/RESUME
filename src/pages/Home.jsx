@@ -29,6 +29,8 @@ export default function Home() {
   }, []);
   
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(true);
+  const [locationCity, setLocationCity] = useState('Bengaluru');
+  const [isGlitching, setIsGlitching] = useState(false);
   
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
@@ -36,6 +38,20 @@ export default function Home() {
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsGlitching(true);
+      setTimeout(() => {
+        setLocationCity(prev => prev === 'Bengaluru' ? 'Vijayapura' : 'Bengaluru');
+      }, 200);
+      setTimeout(() => {
+        setIsGlitching(false);
+      }, 500);
+    }, 4000); // Loop every 4 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div ref={containerRef} className="w-full h-full flex flex-col items-start justify-center relative min-h-[90vh]">
@@ -81,7 +97,15 @@ export default function Home() {
         
         <p className="flex items-center text-gray-600 font-medium tracking-wide drop-shadow-md pb-2 sm:pb-4 text-sm sm:text-base">
           <MapPin className="w-5 h-5 mr-3 text-accentSecondary" />
-          Bengaluru, Karnataka, India
+          <span className="relative inline-block mr-1 min-w-[85px]">
+            <span 
+              className={isGlitching ? "glitch inline-block" : "inline-block"} 
+              data-text={locationCity + ","}
+            >
+              {locationCity},
+            </span>
+          </span>
+           Karnataka, India
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto">
