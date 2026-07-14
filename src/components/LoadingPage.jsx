@@ -18,7 +18,7 @@ export default function LoadingPage() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[200] bg-[#FFFDD0] flex flex-col items-center justify-center overflow-hidden bg-jitter">
+    <div className="fixed inset-0 z-[200] bg-[#E5E7EB] flex flex-col items-center justify-center overflow-hidden bg-jitter">
       
       {/* Old TV Static & Scanlines */}
       <div className="absolute inset-0 tv-static mix-blend-multiply z-0" />

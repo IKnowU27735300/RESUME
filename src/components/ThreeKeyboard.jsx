@@ -54,25 +54,26 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
   
   // Cache color objects to prevent garbage collection thrashing inside useFrame
   const activeColorObj = useMemo(() => new THREE.Color(activeColor), [activeColor]);
-  const blackColorObj = useMemo(() => new THREE.Color('#000000'), []);
+  const blackColorObj = useMemo(() => new THREE.Color('#1a1a1a'), []);
   
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
-    const wave = Math.sin(t * 8 + position[0] * 2 + position[2] + phase);
-    const pressed = wave > 0.9;
+    // Reduced speed: t * 3.5 (was t * 8) for a calmer typing feel
+    const wave = Math.sin(t * 3.5 + position[0] * 2 + position[2] + phase);
+    const pressed = wave > 0.92;
     
     if (meshRef.current) {
       meshRef.current.position.y = THREE.MathUtils.lerp(
         meshRef.current.position.y,
-        pressed ? -(KEY_SIZE * 0.3) : 0,
-        0.4
+        pressed ? -(KEY_SIZE * 0.18) : 0, // subtler press depth (was 0.3)
+        0.25 // softer lerp (was 0.4)
       );
     }
     
     if (glowRef.current && glowRef.current.material) {
       const targetColor = pressed ? activeColorObj : blackColorObj;
-      glowRef.current.material.emissive.lerp(targetColor, 0.2);
-      glowRef.current.material.emissiveIntensity = pressed ? 2.5 : 0;
+      glowRef.current.material.emissive.lerp(targetColor, 0.15);
+      glowRef.current.material.emissiveIntensity = pressed ? 1.8 : 0;
     }
   });
 
@@ -81,22 +82,24 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
   return (
     <group position={position}>
       <group ref={meshRef}>
+        {/* Key base — dark charcoal with slight warm tone */}
         <mesh castShadow receiveShadow position={[0, 0, 0]}>
-          <boxGeometry args={[exactWidth, 0.2, KEY_SIZE]} />
-          <meshStandardMaterial color="#151515" roughness={0.7} metalness={0.3} />
+          <boxGeometry args={[exactWidth, 0.22, KEY_SIZE]} />
+          <meshStandardMaterial color="#222228" roughness={0.65} metalness={0.25} />
         </mesh>
-        <mesh castShadow receiveShadow position={[0, 0.15, 0]}>
+        {/* Key top cap — slightly lighter, smooth surface */}
+        <mesh castShadow receiveShadow position={[0, 0.16, 0]}>
           <boxGeometry args={[exactWidth - 0.06, 0.1, KEY_SIZE - 0.08]} />
-          <meshStandardMaterial color="#1a1a1a" roughness={0.4} metalness={0.5} />
+          <meshStandardMaterial color="#2e2e36" roughness={0.35} metalness={0.45} />
         </mesh>
         
         {/* Key Label */}
         {label && (
           <Text
-            position={[0, 0.21, 0]}
+            position={[0, 0.22, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
-            fontSize={exactWidth > 0.6 ? 0.1 : 0.14}
-            color="#ffffff"
+            fontSize={exactWidth > 0.6 ? 0.09 : 0.13}
+            color="#cccccc"
             anchorX="center"
             anchorY="middle"
             maxWidth={exactWidth * 0.8}
@@ -108,9 +111,10 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
         )}
       </group>
 
-      <mesh ref={glowRef} position={[0, -0.1, 0]}>
+      {/* Underglow on press */}
+      <mesh ref={glowRef} position={[0, -0.08, 0]}>
         <boxGeometry args={[exactWidth - 0.1, 0.05, KEY_SIZE - 0.1]} />
-        <meshStandardMaterial color="#000" emissive="#000" />
+        <meshStandardMaterial color="#1a1a1a" emissive="#1a1a1a" />
       </mesh>
     </group>
   );
@@ -118,7 +122,8 @@ function KeyboardKey({ position, width = 1, activeColor = '#D4AF37', label = '' 
 
 function FullKeyboard() {
   const keys = [];
-  const accentColors = ['#000000', '#111111', '#222222', '#333333'];
+  // Subtle warm accent colors on key press, not pure black
+  const accentColors = ['#D4AF37', '#C0A030', '#B8960A', '#c8b46a'];
   
   let currentZ = 0;
   
@@ -161,25 +166,27 @@ function FullKeyboard() {
 
   return (
     <group>
+      {/* Main keyboard chassis — refined dark charcoal */}
       <RoundedBox 
-        position={[0, -0.25, 0]} 
-        args={[TOTAL_WIDTH + 0.6, 0.4, TOTAL_DEPTH + 0.6]} 
-        radius={0.25} 
-        smoothness={32} 
+        position={[0, -0.28, 0]} 
+        args={[TOTAL_WIDTH + 0.7, 0.45, TOTAL_DEPTH + 0.7]} 
+        radius={0.28} 
+        smoothness={48} 
         receiveShadow 
         castShadow
       >
-        <meshStandardMaterial color="#0f0f13" roughness={0.8} metalness={0.7} />
+        <meshStandardMaterial color="#18181f" roughness={0.75} metalness={0.55} />
       </RoundedBox>
       
+      {/* Inner bezel — slight highlight separation */}
       <RoundedBox 
-        position={[0, -0.05, 0]} 
-        args={[TOTAL_WIDTH + 0.2, 0.05, TOTAL_DEPTH + 0.2]} 
-        radius={0.1} 
+        position={[0, -0.04, 0]} 
+        args={[TOTAL_WIDTH + 0.25, 0.06, TOTAL_DEPTH + 0.25]} 
+        radius={0.12} 
         smoothness={32} 
         receiveShadow
       >
-        <meshStandardMaterial color="#050505" roughness={0.9} />
+        <meshStandardMaterial color="#111118" roughness={0.85} metalness={0.3} />
       </RoundedBox>
       
       {keys}
@@ -192,23 +199,28 @@ export default function ThreeKeyboard() {
     <div className="absolute inset-0 w-full h-full pointer-events-none">
       <LazyCanvas>
         <Canvas camera={{ position: [2, 6, 10], fov: 40 }} shadows>
-          <ambientLight intensity={0.5} />
+          {/* Softer, warmer lighting setup */}
+          <ambientLight intensity={0.75} />
           <directionalLight 
             position={[10, 15, 10]} 
-            intensity={1.5} 
+            intensity={1.2} 
             castShadow 
             shadow-mapSize-width={1024} 
             shadow-mapSize-height={1024}
           />
-          <pointLight position={[-10, 5, -10]} intensity={0.5} color="#ffffff" />
+          {/* Warm fill light from the left to soften dark areas */}
+          <pointLight position={[-8, 6, 5]} intensity={0.6} color="#fff8f0" />
+          {/* Cool rim light from behind for depth */}
+          <pointLight position={[5, 3, -12]} intensity={0.35} color="#c8d8ff" />
           
-          <Float speed={2} rotationIntensity={0.15} floatIntensity={0.3}>
+          <Float speed={1.4} rotationIntensity={0.1} floatIntensity={0.25}>
             <group scale={[1.5, 1.5, 1.5]} rotation={[Math.PI / 6, -Math.PI / 4.5, 0]} position={[7.5, -2.5, 0]}>
               <FullKeyboard />
             </group>
           </Float>
           
-          <ContactShadows position={[0, -2, 0]} opacity={0.7} scale={40} blur={3.0} far={10} />
+          {/* Lighter contact shadow for the new bg */}
+          <ContactShadows position={[0, -2, 0]} opacity={0.45} scale={40} blur={3.5} far={10} />
         </Canvas>
       </LazyCanvas>
     </div>

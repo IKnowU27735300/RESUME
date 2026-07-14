@@ -64,10 +64,13 @@ export default function Home() {
         }}
       >
         <motion.div 
-          className="w-[100vw] h-[100vh] mt-20 opacity-60 md:opacity-100"
-          style={{ scale: keyboardScale }}
+          className="w-[100vw] h-[100vh] mt-20 opacity-40 md:opacity-80"
+          style={{ 
+            scale: keyboardScale,
+            visibility: isKeyboardVisible ? 'visible' : 'hidden'
+          }}
         >
-          {isKeyboardVisible && <ThreeKeyboard />}
+          <ThreeKeyboard />
         </motion.div>
       </motion.div>
 

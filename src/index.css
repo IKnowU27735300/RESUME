@@ -5,7 +5,7 @@
 @layer base {
   body {
     margin: 0;
-    background-color: #FFFDD0;
+    background-color: #E5E7EB;
     color: #000000;
     overflow-x: hidden;
   }
@@ -99,7 +99,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #FFFDD0;
+  background: #E5E7EB;
 }
 
 .glitch::before {
@@ -193,4 +193,28 @@
 .hover-rgb-light:hover {
   animation: rgb-gaming-shadow 2.5s linear infinite;
   z-index: 10;
+}
+
+/* Mesh light sweep — moves diagonally across the grid */
+@keyframes mesh-sweep {
+  0%   { transform: translate(-100%, -60%) scale(1.2); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translate(100%, 60%) scale(1.2); opacity: 0; }
+}
+
+@keyframes mesh-sweep-reverse {
+  0%   { transform: translate(100%, -60%) scale(1.2); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translate(-100%, 60%) scale(1.2); opacity: 0; }
+}
+
+.mesh-light {
+  animation: mesh-sweep 9s ease-in-out infinite;
+}
+
+.mesh-light-reverse {
+  animation: mesh-sweep-reverse 12s ease-in-out infinite;
+  animation-delay: 4.5s;
 }

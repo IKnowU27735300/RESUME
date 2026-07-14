@@ -29,7 +29,10 @@ export default function LazyCanvas({ children, className = '', height = '100%', 
 
   return (
     <div ref={containerRef} className={className} style={{ height, width: '100%', position: 'relative' }}>
-      {isIntersecting ? children : fallback}
+      <div style={{ display: isIntersecting ? 'block' : 'none', width: '100%', height: '100%' }}>
+        {children}
+      </div>
+      {!isIntersecting && fallback}
     </div>
   );
 }
