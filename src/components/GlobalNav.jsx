@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
@@ -8,6 +8,24 @@ const pages = [
 
 export default function GlobalNav({ activePage, setActivePage }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      // Hide when scrolling down past 80px, show when scrolling up
+      if (currentY > lastScrollY.current && currentY > 80) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -20,7 +38,11 @@ export default function GlobalNav({ activePage, setActivePage }) {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[100] px-4 md:px-12 lg:px-16 xl:px-24 py-6 pointer-events-none">
+    <motion.nav
+      className="fixed top-0 left-0 w-full z-[100] px-4 md:px-12 lg:px-16 xl:px-24 py-6 pointer-events-none"
+      animate={{ y: hidden ? '-110%' : '0%' }}
+      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+    >
       <div className="max-w-[1920px] mx-auto flex items-center justify-between pointer-events-auto">
         
         <div 
@@ -118,6 +140,6 @@ export default function GlobalNav({ activePage, setActivePage }) {
         </AnimatePresence>
 
       </div>
-    </nav>
+    </motion.nav>
   );
 }
